@@ -1,0 +1,79 @@
+
+.footer {
+	padding: 0px;
+	margin: 0px;
+	/*background-color: #84827f;*/
+	min-height: 300px;
+	color: white;
+}
+
+.header {
+	background-color: black;
+	color: white;
+}
+
+.main {
+	min-height: 350px;
+}
+
+.page-row-topic {
+	background: white;
+	margin-bottom: 30px;
+}
+.page-row-white {
+	background: white;	
+}
+.page-row-grey {
+	background: grey;	
+}
+.page-row-pink {
+	background: pink;	
+}
+
+.page-row-black {
+	background: black;	
+}
+.page-row-dark {
+	background: #35363c;	
+}
+.page-row-light {
+	background: #F1F2F2;	
+}
+.navbar-default .navbar-nav>li>a {
+	color: white;
+}
+
+.dropdown:hover .dropdown-menu {
+    display: block;
+    margin-top: 0; // remove the gap so it doesn't close
+    color: #FF8200;
+}
+
+
+
+.navbar-default .navbar-nav>li>a:active {
+    color: #FF8200;
+}
+.navbar-default .navbar-nav>li>a:link {
+    color: #FF8200;
+}
+.navbar-default .navbar-nav>li>a:visited {
+    color: white;
+}
+.navbar-default .navbar-nav>li>a:hover {
+    color: #FF8200;
+}
+
+.char {
+    background: url(http://www.specialname.cn/wp-content/themes/twentythirteen/images/image3.png) no-repeat;
+    height: 110px;
+    width: 85px;
+    border: medium none;
+    margin: 0 33px 0 0;
+    line-height: 190px;
+    color: #FFF;
+}
+.char .char-elegant {
+    background-position: -506px 0;
+}
+
