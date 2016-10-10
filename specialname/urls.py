@@ -24,6 +24,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^jsonp$', jsonp),
     url(r'^$', index),
+    url(r'^payment$', payment),
 ]
 
 

@@ -11,7 +11,6 @@ from django.conf import settings
 from django.utils.encoding import smart_str
 from django.views.decorators.csrf import csrf_exempt
 from django.utils import datetime_safe
-from django.views.decorators.csrf import csrf_exempt
 import urllib2, urllib
 import json
 import time
@@ -25,4 +24,9 @@ def jsonp(request):
 def index(request):
     return render_to_response('specialname/index.html',
                               {},
+                              context_instance=RequestContext(request))
+
+def payment(request):
+    return render_to_response('specialname/payment.html',
+                              {'chars': request.POST.get('characters', 'xyz')},
                               context_instance=RequestContext(request))
