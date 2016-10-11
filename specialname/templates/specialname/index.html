@@ -90,23 +90,15 @@
             <div>
                 <button class="btn btn-success center-block" id="start">Submit 5 characters</button>
             </div>
+            
             <div id="myDiv" class="text-center">
-                <p>Our expert is naming you...</p>
             </div>
 
             <div id="payment">
                 <form role="form" action="./payment" method="POST">
                     {% csrf_token %}
-                  <div class="form-group">
-                    <label for="exampleInputPassword1">Name</label>
-                    <input type="" class="form-control" id="exampleInputPassword1" placeholder="Enter name" value="Dido">
-                  </div>
-                  <div class="form-group">
-                    <label for="exampleInputEmail1">Email address</label>
-                    <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email" value="dido@gmail.com">
-                  </div>
                   <input type="hidden" name="characters" id="characters" value="1,0,1">
-                  <button type="submit" id="payNow" class="btn btn-info">Pay Now!</button>
+                  <button type="submit" id="payNow" class="btn btn-info">Announce It!</button>
                 </form>
             </div>
 
@@ -155,6 +147,8 @@
             $('#myDiv').hide()
             $('#payment').hide()
             $('#result').hide()
+            $('#start').prop('disabled', true)
+
             
             $('.gender').click(function (ele) {
                 $('#chars').show();
@@ -163,13 +157,29 @@
                 }, 1000);
             })
 
-            $('#start').click(function (ele) {
-                $('#characters').val( $('.checkbox-character input').map(function(i, e){
+            $('.checkbox-character input').change(function (evt) {
+                console.log(evt);
+                var selections = $('.checkbox-character input').map(function(i, e){
                   return e.checked ? 1 : 0;
-                }).get().join(",") );
+                }).get();
+                var sum = selections.reduce(function(sum,element) {
+                     return sum + Number(element);
+                 }, 0);
+                
+                $('#start').prop('disabled', sum !== 5)
+                
+            })
+
+            $('#start').click(function (ele) {
+                var selections = $('.checkbox-character input').map(function(i, e){
+                  return e.checked ? 1 : 0;
+                }).get();
+                $('#characters').val( selections.join(",") );
 
 
+                $('#myDiv').empty();
                 $('#myDiv').show();
+                $('#myDiv').append('<p><b>Our expert is naming you...</b></p>');
                 var loader = $("#myDiv").percentageLoader({ width : 180, height : 180, progress : 0, value : ''})
                 var width = 0;
                 var interval = setInterval(function() {

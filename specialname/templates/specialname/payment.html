@@ -11,8 +11,34 @@
     <body>
         <!-- Header and nav bar -->
         <div class="container">
-            <h1>支付</h1>
+            <h1>产品</h1>
+
+
             <p>{{ chars }}</p>
+            <form role="form" class="form-inline">
+                <div class="form-group">
+                    <label for="exampleInputPassword1">Name <span style="color:red;">*</span></label>
+                    <input type="" class="form-control" id="exampleInputPassword1" placeholder="Enter name" value="Dido" required="">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Email address <span style="color:red;">*</span></label>
+                    <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email" value="dido@gmail.com" required="">
+                </div>
+                <p>Products:</p>
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <tr>
+                            <td>5 names by experts x1</td>
+                            <td>$10</td>
+                        </tr>
+                        <tr>
+                            <td>Total Price</td>
+                            <td>$10</td>
+                        </tr>
+                    </table>
+                </div>
+                <button class="btn btn-primary">Pay It!</button>
+            </form>
         </div>
 
                                 
@@ -21,6 +47,7 @@
             <div class="container">
                 <div class="container-fluid">
                     <div class="row text-center">
+                        <hr/>
                         <h1 style="color:grey;">Names we given</h1>
                         <h2 style="">00330120</h2>
                     </div>
