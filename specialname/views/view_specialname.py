@@ -28,5 +28,8 @@ def index(request):
 
 def payment(request):
     return render_to_response('specialname/payment.html',
-                              {'chars': request.POST.get('characters', 'xyz')},
+                              {'characters': request.POST.get('characters', 'xyz'),
+                               'gender': request.POST.get('gender', 0)},
                               context_instance=RequestContext(request))
+
+    

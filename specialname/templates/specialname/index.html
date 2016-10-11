@@ -21,8 +21,8 @@
                     </div>
                 </div>
                 <div class="row">
-                    <a href="#" class="gender"><img src="{% static 'media/boy.gif' %}"></a> 
-                    <a href="#" class="gender"><img src="{% static 'media/girl.gif' %}"></a> 
+                    <a href="#" class="genders" x-gender=0><img src="{% static 'media/girl.gif' %}"></a> 
+                    <a href="#" class="genders" x-gender=1><img src="{% static 'media/boy.gif' %}"></a> 
                 </div>
 
             </div>
@@ -94,11 +94,12 @@
             <div id="myDiv" class="text-center">
             </div>
 
-            <div id="payment">
+            <div id="payment" class="center-block">
                 <form role="form" action="./payment" method="POST">
                     {% csrf_token %}
-                  <input type="hidden" name="characters" id="characters" value="1,0,1">
-                  <button type="submit" id="payNow" class="btn btn-info">Announce It!</button>
+                    <input type="hidden" name="characters" id="characters" value="1,0,1">
+                    <input type="hidden" name="gender" id="gender" value="0">
+                    <button type="submit" id="payNow" class="btn btn-info center-block">Announce It!</button>
                 </form>
             </div>
 
@@ -150,11 +151,13 @@
             $('#start').prop('disabled', true)
 
             
-            $('.gender').click(function (ele) {
+            $('.genders').click(function (evt) {
                 $('#chars').show();
+                $('#gender').val($(this).attr('x-gender'))
+                
                 $('body').animate({
                     scrollTop: 500
-                }, 1000);
+                }, 750);
             })
 
             $('.checkbox-character input').change(function (evt) {
@@ -177,10 +180,14 @@
                 $('#characters').val( selections.join(",") );
 
 
+                // $('#chars').hide()
                 $('#myDiv').empty();
                 $('#myDiv').show();
                 $('#myDiv').append('<p><b>Our expert is naming you...</b></p>');
                 var loader = $("#myDiv").percentageLoader({ width : 180, height : 180, progress : 0, value : ''})
+                $('#myDiv').children().addClass('center-block')
+                
+
                 var width = 0;
                 var interval = setInterval(function() {
                     width += 5;
