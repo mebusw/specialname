@@ -61,7 +61,6 @@ class Order(models.Model):
     EXPRESS_CHOICES = (('shunfeng', '顺丰'), ('yuantong', '圆通'), ('zhongtong', '中通') , ('shentong', '申通'), ('tiantian', '天天快递'))
 
     user = models.ForeignKey(User)
-    survey_result = models.ForeignKey(SurveyResult, null=True)
     out_trade_no = models.CharField(max_length=255, null=True, blank=True)
     express_no = models.CharField(max_length=255, null=True, blank=True)
     express_vendor = models.CharField(max_length=255, choices=EXPRESS_CHOICES, null=True, blank=True)
