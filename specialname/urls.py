@@ -15,16 +15,17 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-# from views import *
 from django.conf.urls import patterns, url
-
 from views import *
+
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^jsonp$', jsonp),
     url(r'^$', index),
     url(r'^payment$', payment),
+    url(r'^paid$', paid),
+    url(r'^payment_wap$', payment_wap),
 ]
 
 

@@ -1,14 +1,7 @@
-<!DOCTYPE html>
+{% extends 'specialname/_base.html' %}
 {% load static %}
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-        <title>Special Name</title>
-        <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
-        <link rel="stylesheet" href="{% static 'css/main.css' %}">
-    </head>
-    <body>
+
+{% block content %}
         <!-- Header and nav bar -->
         <div class="container">
         </div>
@@ -125,24 +118,10 @@
             </div>
         </div><!-- / Body: Topic -->
 
-                                
-        <!-- Footer2 -->
-        <div class="page-row-topic">
-            <div class="container">
-                <div class="container-fluid">
-                    <div class="row text-center">
-                        <h1 style="color:grey;">Names we given</h1>
-                        <h2 style="">00330120</h2>
-                    </div>
-                </div>
-            </div>
-        </div><!-- / Footer2 -->
+{% endblock %}
 
 
-
-        <script src="{% static 'js/jquery-1.10.2.min.js' %}"></script>
-        <script src="{% static 'js/bootstrap.min.js' %}"></script>
-        <script src="{% static 'js/jquery.percentageloader-01a.js' %}"></script>
+{% block script %}
         <script type="text/javascript">
             $('#chars').hide()
             $('#myDiv').hide()
@@ -204,5 +183,4 @@
 
             })
         </script>
-    </body>
-</html>
+{% endblock %}
