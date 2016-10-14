@@ -43,7 +43,7 @@ class Order(models.Model):
 class OrderItem(models.Model):
     order = models.ForeignKey(Order)
     product = models.ForeignKey(Product)
-    amount = models.IntegerField(max_length=10, default=0)
+    amount = models.IntegerField(default=0)
 
     def __unicode__(self):
         return u'%s %s x%s @ %s' % (self.product.name, self.product.price, self.amount, self.order.id)
