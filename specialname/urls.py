@@ -26,6 +26,8 @@ urlpatterns = [
     url(r'^payment$', payment),
     url(r'^paid$', paid),
     url(r'^payment_wap$', payment_wap),
+    url(r'^paid_wap$', paid_wap),
+    url(r'^paid_notify_wap$', paid_notify_wap),
 ]
 
 
