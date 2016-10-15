@@ -88,7 +88,7 @@ def paid_wap(request):
                               {'out_trade_no': params["out_trade_no"], 'result': params['result'],
                                'discount_price': order.discount_price,
                                'is_correct_sign': is_correct_sign,
-                               'deliverable': order.deliverable}, context_instance=RequestContext(request))
+                               'order': order}, context_instance=RequestContext(request))
 
 
 @csrf_exempt
