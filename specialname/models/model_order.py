@@ -34,6 +34,9 @@ class Order(models.Model):
     pay_date = models.DateTimeField(null=True, blank=True)
     deliver_date = models.DateTimeField(null=True)
     state = models.CharField(max_length=10, choices=STATE_CHOICES, default=CREATED)
+    email = models.CharField(max_length=255, null=True, blank=True)
+    client_name = models.CharField(max_length=255, null=True, blank=True)
+    deliverable = models.CharField(max_length=255, null=True, blank=True)
 
     def __unicode__(self):
         return u'￥%s (%s) - %s - %s' % (
@@ -46,7 +49,7 @@ class OrderItem(models.Model):
     amount = models.IntegerField(default=0)
 
     def __unicode__(self):
-        return u'%s %s x%s @ %s' % (self.product.name, self.product.price, self.amount, self.order.id)
+        return u'%s %s x%s @ %s = %s' % (self.product.name, self.product.price, self.amount, self.order.id)
 
 
 

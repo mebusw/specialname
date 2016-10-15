@@ -32,15 +32,11 @@ def index(request):
 def order(request, order_id):
     order = get_object_or_404(Order, id=order_id)
     order_items = OrderItem.objects.filter(order=order)
-    return render_to_response('specialname/order.html', {'order': order, 'order_items': order_items},
+    return render_to_response('specialname/order.html', {'order_id': order.id, 'email': order.email,
+                                                        'client_name': order.client_name,
+                                                        'deliverable': order.deliverable},
                               context_instance=RequestContext(request))
 
-
-
-def paid(request):
-    return render_to_response('specialname/paid.html',
-                              {},
-                              context_instance=RequestContext(request))
 
 def _generate_req_seq(aux_id=''):
     return datetime.now().strftime('%Y%m%d%H%M%S') + str(aux_id)
@@ -71,6 +67,10 @@ def payment(request):
 
 def payment_wap(request):
     order = get_object_or_404(Order, id=request.POST['order_id'])
+    order.email = request.POST['email']
+    order.client_name = request.POST['client_name']
+    order.save()
+
     return HttpResponse(AlipayWap().make(order.out_trade_no, u"SpecialName", str(order.discount_price)))
 
 
@@ -81,11 +81,14 @@ def paid_wap(request):
     is_correct_sign = AlipayWap().is_correct_sign(params)
 
     order = Order.objects.get(out_trade_no=params['out_trade_no'])
+    order.deliverable = '王二狗 赵淑芬'
+    order.save()
 
     return render_to_response('specialname/paid.html',
                               {'out_trade_no': params["out_trade_no"], 'result': params['result'],
                                'discount_price': order.discount_price,
-                               'is_correct_sign': is_correct_sign}, context_instance=RequestContext(request))
+                               'is_correct_sign': is_correct_sign,
+                               'deliverable': order.deliverable}, context_instance=RequestContext(request))
 
 
 @csrf_exempt
