@@ -1,0 +1,14 @@
+Django==1.8c1
+Fabric==1.10.2
+Pillow==2.9.0
+django-appconf==1.0.1
+django-compressor==1.5
+django-libs==1.67.7
+django-paypal-express-checkout==1.8
+ecdsa==0.13
+matryoshka==0.0.3
+paramiko==1.15.2
+psycopg2==2.6
+pycrypto==2.6.1
+six==1.9.0
+wsgiref==0.1.2

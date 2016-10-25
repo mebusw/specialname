@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from django.conf.urls import patterns, url
+from django.conf.urls import patterns, url, include
 from views import *
 
 
@@ -28,6 +28,8 @@ urlpatterns = [
     url(r'^payment_wap$', payment_wap),
     url(r'^paid_wap$', paid_wap),
     url(r'^paid_notify_wap$', paid_notify_wap),
+
+    url(r'^payment_paypal$', payment_paypal),
 ]
 
 

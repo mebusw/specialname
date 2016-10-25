@@ -18,6 +18,9 @@ from random import random
 from specialname.lib.alipaylib import AlipayWap
 import xml.etree.ElementTree as ET
 from specialname.models import *
+import paypalrestsdk as paypal
+
+
 
 def jsonp(request):
     return HttpResponse(json.dumps({'read': [True, None, 1, 2, 3]}), content_type="application/json")
@@ -61,7 +64,7 @@ def payment(request):
     return render_to_response('specialname/payment.html',
                           {'characters': request.POST.get('characters', 'xyz'),
                            'gender': request.POST.get('gender', 0),
-                           'order_id': order.id},
+                           'order_id': order.id,},
                           context_instance=RequestContext(request))
 
 
@@ -113,3 +116,63 @@ def paid_notify_wap(request):
 
 
 
+def payment_paypal(request):
+    # gateway = braintree.BraintreeGateway(access_token=use_your_access_token)
+    paypal.configure({
+      "mode": "sandbox", # sandbox or live
+      "client_id": 'AaaPugJL3aRgMCXPBsyF8kB0CWTp4KIv8qHHIrT0RCyfC9sFOdU475Dhp-O_Qrz1cVm_afuMEnlvcYTf',
+      "client_secret": 'ECKE9pvmGa_IGKUQz35vt4a_Lsv71y0OxBRLRgvQsSQJR7c0V9UP2Bu80nz_hVlo0mDhIlKk8fj8hAi-' 
+    })
+
+    payment = paypal.Payment({
+        "intent": "sale",
+
+        # Payer
+        # A resource representing a Payer that funds a payment
+        # Payment Method as 'paypal'
+        "payer": {
+            "payment_method": "paypal"},
+
+        # Redirect URLs
+        "redirect_urls": {
+            "return_url": "http://localhost:8000/payment/execute",
+            "cancel_url": "http://localhost:8000/"},
+
+        # Transaction
+        # A transaction defines the contract of a
+        # payment - what is the payment for and who
+        # is fulfilling it.
+        "transactions": [{
+
+            # ItemList
+            "item_list": {
+                "items": [{
+                    "name": "Chinese Name",
+                    "sku": "item",
+                    "price": "0.01",
+                    "currency": "USD",
+                    "quantity": 1}]},
+
+            # Amount
+            # Let's you specify a payment amount.
+            "amount": {
+                "total": "0.01",
+                "currency": "USD"},
+            "description": "This is the payment transaction description."}]})
+
+    # Create Payment and return status
+    if payment.create():
+        print("Payment[%s] created successfully" % (payment.id))
+        # Redirect the user to given approval url
+        for link in payment.links:
+            if link.method == "REDIRECT":
+                redirect_url = str(link.href)
+                print("Redirect for approval: %s" % (redirect_url))
+    else:
+        print("Error while creating payment:")
+        print(payment.error)
+    return HttpResponse('should to go to Paypal')
+
+
+def payment_create(request):
+    return HttpResponse('should to execute to Paypal')
