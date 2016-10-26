@@ -20,17 +20,18 @@ from views import *
 
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
+    url(r'^myadmin/', admin.site.urls),
     url(r'^jsonp$', jsonp),
     url(r'^$', index),
     url(r'^order/(?P<order_id>\d+)$', order),
     url(r'^payment$', payment),
+
     url(r'^payment_wap$', payment_wap),
     url(r'^paid_wap$', paid_wap),
     url(r'^paid_notify_wap$', paid_notify_wap),
 
-    url(r'^payment_paypal$', payment_paypal),
-    url(r'^payment_return$', payment_return),
+    url(r'^payment/paypal/create$', payment_paypal_create),
+    url(r'^payment/paypal/return$', payment_paypal_return),
 ]
 
 

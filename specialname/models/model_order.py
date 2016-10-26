@@ -27,9 +27,13 @@ class Order(models.Model):
     STATE_CHOICES = ((CREATED, '已创建'), (PAID, '已支付'), (PRODUCED, '已调配'), (SENT, '已发货'), (DELIVERED, '已签收'),
                      (CONSUMED, '已使用'), (CANCELLED, '已取消'))
 
-    out_trade_no = models.CharField(max_length=255, null=True, blank=True)
+    ALIPAY = 'ALIPAY'
+    PAYPAL = 'PAYPAL'
+    PAY_CHOICES = ((ALIPAY, ALIPAY), (PAYPAL, PAYPAL),)
+
     total_price = models.DecimalField(max_digits=16, decimal_places=2, default=0)
     discount_price = models.DecimalField(max_digits=16, decimal_places=2, default=0)
+    unit = models.CharField(max_length=10, null=True, blank=True)
     create_time = models.DateTimeField(auto_now_add=True)
     pay_date = models.DateTimeField(null=True, blank=True)
     deliver_date = models.DateTimeField(null=True)
@@ -38,10 +42,17 @@ class Order(models.Model):
     client_name = models.CharField(max_length=255, null=True, blank=True)
     deliverable = models.CharField(max_length=255, null=True, blank=True)
 
-    def __unicode__(self):
-        return u'￥%s (%s) - %s - %s' % (
-            self.discount_price, self.total_price, self.state, self.out_trade_no)
+    pay_channel = models.CharField(max_length=10, choices=PAY_CHOICES, null=True, blank=True)
+    out_trade_no = models.CharField(max_length=255, null=True, blank=True)
+    paypal_payer_id = models.CharField(max_length=255, null=True, blank=True)
+    paypal_payment_id = models.CharField(max_length=255, null=True, blank=True)
 
+    def __unicode__(self):
+        if self.pay_channel == self.ALIPAY:
+            return u'ALIPAY %s (%s) %s - %s - %s' % (self.discount_price, self.total_price, self.unit, self.state, self.out_trade_no)
+        elif self.pay_channel == self.PAYPAL:
+            return u'PAYPAL %s (%s) %s - %s - %s' % (self.discount_price, self.total_price, self.unit, self.state, self.paypal_payment_id)
+        return u'%s (%s) %s - %s' % (self.discount_price, self.total_price, self.unit, self.state,)
 
 class OrderItem(models.Model):
     order = models.ForeignKey(Order)
@@ -49,7 +60,7 @@ class OrderItem(models.Model):
     amount = models.IntegerField(default=0)
 
     def __unicode__(self):
-        return u'%s %s x%s @ %s = %s' % (self.product.name, self.product.price, self.amount, self.order.id)
+        return u'%s %s x %s @ %s' % (self.product.name, self.product.price, self.amount, self.order.id)
 
 
 

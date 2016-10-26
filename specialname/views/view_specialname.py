@@ -45,7 +45,7 @@ def _generate_req_seq(aux_id=''):
     return datetime.now().strftime('%Y%m%d%H%M%S') + str(aux_id)
 
 
-def payment(request):
+def _create_order():
     product, created = Product.objects.get_or_create(pk=1, defaults={'name': 'One Name For Life', 'price': 0.01})
     order = Order.objects.create()
 
@@ -57,21 +57,25 @@ def payment(request):
 
     order.total_price = total_price
     order.discount_price = total_price
-    order.out_trade_no = _generate_req_seq()
     order.save()
 
-    # return HttpResponseRedirect(reverse('specialname.views.order', kwargs={"order_id": order.id}))
+    return order
+
+def payment(request):
     return render_to_response('specialname/payment.html',
                           {'characters': request.POST.get('characters', 'xyz'),
                            'gender': request.POST.get('gender', 0),
-                           'order_id': order.id,},
+                           # 'order_id': order.id,
+                           },
                           context_instance=RequestContext(request))
 
 
 def payment_wap(request):
-    order = get_object_or_404(Order, id=request.POST['order_id'])
+    order = _create_order()
     order.email = request.POST['email']
     order.client_name = request.POST['client_name']
+    order.pay_channel = order.ALIPAY
+    order.out_trade_no = _generate_req_seq()
     order.save()
 
     return HttpResponse(AlipayWap().make(order.out_trade_no, u"SpecialName", str(order.discount_price)))
@@ -85,6 +89,8 @@ def paid_wap(request):
 
     order = Order.objects.get(out_trade_no=params['out_trade_no'])
     order.deliverable = '王二狗 赵淑芬'
+    order.state = Order.PAID
+    order.pay_date = datetime_safe.datetime.now()
     order.save()
 
     return render_to_response('specialname/paid.html',
@@ -104,7 +110,6 @@ def paid_notify_wap(request):
         try:
             t = ET.fromstring(params['notify_data'].encode('utf8'))
             out_trade_no = t.find('out_trade_no').text
-            print "change order state for ", out_trade_no
             order = Order.objects.get(out_trade_no=out_trade_no)
             order.state = Order.PAID
             order.pay_date = datetime_safe.datetime.now()
@@ -116,7 +121,13 @@ def paid_notify_wap(request):
 
 
 
-def payment_paypal(request):
+def payment_paypal_create(request):
+    order = _create_order()
+    order.email = request.POST['email']
+    order.client_name = request.POST['client_name']
+    order.pay_channel = order.PAYPAL
+    order.save()
+
     paypal.configure({
         "mode": "sandbox", # sandbox or live
         "client_id": 'AaaPugJL3aRgMCXPBsyF8kB0CWTp4KIv8qHHIrT0RCyfC9sFOdU475Dhp-O_Qrz1cVm_afuMEnlvcYTf',
@@ -134,7 +145,7 @@ def payment_paypal(request):
 
         # Redirect URLs
         "redirect_urls": {
-            "return_url": "http://localhost:8000/payment_return",
+            "return_url": "http://localhost:8000/payment/paypal/return",
             "cancel_url": "http://localhost:8000/"},
 
         # Transaction
@@ -162,6 +173,8 @@ def payment_paypal(request):
     # Create Payment and return status
     if payment.create():
         print("Payment[%s] created successfully" % (payment.id))
+        order.paypal_payment_id = payment.id
+        order.save()
         # Redirect the user to given approval url
         for link in payment.links:
             if link.method == "REDIRECT":
@@ -174,9 +187,7 @@ def payment_paypal(request):
         return HttpResponse('Error while creating payment: %s' % payment.error)
 
 
-def payment_return(request):
-    print request.GET['paymentId']
-    print request.GET['PayerID']
+def payment_paypal_return(request):
     paypal.configure({
         "mode": "sandbox", # sandbox or live
         "client_id": 'AaaPugJL3aRgMCXPBsyF8kB0CWTp4KIv8qHHIrT0RCyfC9sFOdU475Dhp-O_Qrz1cVm_afuMEnlvcYTf',
@@ -186,9 +197,15 @@ def payment_return(request):
     payment = paypal.Payment.find(request.GET['paymentId'])
     if payment.execute({"payer_id": request.GET['PayerID']}):
         print("Payment execute successfully")
-        ### change order status and ship
+
+        order = Order.objects.get(paypal_payment_id=request.GET['paymentId'])
+        order.paypal_payer_id = request.GET['PayerID']
+        order.state = Order.PAID
+        order.pay_date = datetime_safe.datetime.now()
+        order.deliverable = '韩大伟'
+        order.save()
         ### render
-        return HttpResponse("Payment execute successfully")
+        return HttpResponse("Payment execute successfully, Share Your Chinese Name on Facebook: %s" % order.deliverable)
     else:
         print(payment.error)
         return HttpResponse(payment.error)
