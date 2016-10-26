@@ -1,6 +1,17 @@
 # specialname
 
 
+-------
+# ToDos
+
+- share to fb/wx
+- algorithm
+- UI
+- reading/writing of name
+- diff config of sandbox/production
+- store selected chars to order when create payment
+- use admin to manage product prices
+
 
 -------
 
