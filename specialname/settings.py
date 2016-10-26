@@ -126,20 +126,3 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 )
 
-########## Paypal
-HOSTNAME = 'http://www.peggysbeauty.com/sn/'
-PAYPAL_API_URL = 'https://api-3t.sandbox.paypal.com/nvp'
-PAYPAL_LOGIN_URL = (
-    'https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token='
-)
-PAYPAL_ALLOW_ANONYMOUS_CHECKOUT = True  # Defaults to False
-
-SALE_DESCRIPTION = 'Your payment to Foobar Inc.'
-PAYPAL_USER = 'mebusw_api1.163.com'
-PAYPAL_PWD = '5THWYSSMR4QDK9KB'
-PAYPAL_SIGNATURE = 'AFcWxV21C7fd0v3bYYYRCpSSRl31APxgeoxVthCxsW4JOGIZHduTxEae'
-
-Client_ID = 'AaaPugJL3aRgMCXPBsyF8kB0CWTp4KIv8qHHIrT0RCyfC9sFOdU475Dhp-O_Qrz1cVm_afuMEnlvcYTf'
-Client_Secret = 'ECKE9pvmGa_IGKUQz35vt4a_Lsv71y0OxBRLRgvQsSQJR7c0V9UP2Bu80nz_hVlo0mDhIlKk8fj8hAi-'
-#TestAccount: jackyshen@uperform.cn
-MERCHANT_ID = 'Z8Z69APCQB92W'
