@@ -83,7 +83,6 @@ def payment_wap(request):
 
 @csrf_exempt
 def paid_wap(request):
-    params = request.GET.dict()
     # print params
     is_correct_sign = AlipayWap().is_correct_sign(params)
 
@@ -94,7 +93,7 @@ def paid_wap(request):
     order.save()
 
     return render_to_response('specialname/paid.html',
-                              {'out_trade_no': params["out_trade_no"], 'result': params['result'],
+                              {'out_trade_no': request.GET["out_trade_no"], 'result': request.GET['result'],
                                'discount_price': order.discount_price,
                                'is_correct_sign': is_correct_sign,
                                'order': order}, context_instance=RequestContext(request))
@@ -204,8 +203,12 @@ def payment_paypal_return(request):
         order.pay_date = datetime_safe.datetime.now()
         order.deliverable = '韩大伟'
         order.save()
-        ### render
-        return HttpResponse("Payment execute successfully, Share Your Chinese Name on Facebook: %s" % order.deliverable)
+
+        return render_to_response('specialname/paid.html',
+            {'paymentId': request.GET["paymentId"],
+             'discount_price': order.discount_price,
+             'order': order}, context_instance=RequestContext(request))
+
     else:
         print(payment.error)
         return HttpResponse(payment.error)
