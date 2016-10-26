@@ -30,6 +30,7 @@ urlpatterns = [
     url(r'^paid_notify_wap$', paid_notify_wap),
 
     url(r'^payment_paypal$', payment_paypal),
+    url(r'^payment_return$', payment_return),
 ]
 
 

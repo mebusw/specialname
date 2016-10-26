@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import hashlib
 from django.contrib.auth.models import Permission
-from django.shortcuts import render_to_response, get_object_or_404
+from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.template import RequestContext
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
@@ -117,11 +117,10 @@ def paid_notify_wap(request):
 
 
 def payment_paypal(request):
-    # gateway = braintree.BraintreeGateway(access_token=use_your_access_token)
     paypal.configure({
-      "mode": "sandbox", # sandbox or live
-      "client_id": 'AaaPugJL3aRgMCXPBsyF8kB0CWTp4KIv8qHHIrT0RCyfC9sFOdU475Dhp-O_Qrz1cVm_afuMEnlvcYTf',
-      "client_secret": 'ECKE9pvmGa_IGKUQz35vt4a_Lsv71y0OxBRLRgvQsSQJR7c0V9UP2Bu80nz_hVlo0mDhIlKk8fj8hAi-' 
+        "mode": "sandbox", # sandbox or live
+        "client_id": 'AaaPugJL3aRgMCXPBsyF8kB0CWTp4KIv8qHHIrT0RCyfC9sFOdU475Dhp-O_Qrz1cVm_afuMEnlvcYTf',
+        "client_secret": 'ECKE9pvmGa_IGKUQz35vt4a_Lsv71y0OxBRLRgvQsSQJR7c0V9UP2Bu80nz_hVlo0mDhIlKk8fj8hAi-' 
     })
 
     payment = paypal.Payment({
@@ -135,7 +134,7 @@ def payment_paypal(request):
 
         # Redirect URLs
         "redirect_urls": {
-            "return_url": "http://localhost:8000/payment/execute",
+            "return_url": "http://localhost:8000/payment_return",
             "cancel_url": "http://localhost:8000/"},
 
         # Transaction
@@ -168,11 +167,28 @@ def payment_paypal(request):
             if link.method == "REDIRECT":
                 redirect_url = str(link.href)
                 print("Redirect for approval: %s" % (redirect_url))
+                return redirect(redirect_url)
     else:
         print("Error while creating payment:")
         print(payment.error)
-    return HttpResponse('should to go to Paypal')
+        return HttpResponse('Error while creating payment: %s' % payment.error)
 
 
-def payment_create(request):
-    return HttpResponse('should to execute to Paypal')
+def payment_return(request):
+    print request.GET['paymentId']
+    print request.GET['PayerID']
+    paypal.configure({
+        "mode": "sandbox", # sandbox or live
+        "client_id": 'AaaPugJL3aRgMCXPBsyF8kB0CWTp4KIv8qHHIrT0RCyfC9sFOdU475Dhp-O_Qrz1cVm_afuMEnlvcYTf',
+        "client_secret": 'ECKE9pvmGa_IGKUQz35vt4a_Lsv71y0OxBRLRgvQsSQJR7c0V9UP2Bu80nz_hVlo0mDhIlKk8fj8hAi-' 
+    })
+
+    payment = paypal.Payment.find(request.GET['paymentId'])
+    if payment.execute({"payer_id": request.GET['PayerID']}):
+        print("Payment execute successfully")
+        ### change order status and ship
+        ### render
+        return HttpResponse("Payment execute successfully")
+    else:
+        print(payment.error)
+        return HttpResponse(payment.error)
