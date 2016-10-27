@@ -11,6 +11,7 @@
 - diff config of sandbox/production
 - store selected chars to order when create payment
 - use admin to manage product prices
+- nginx + gunicorn
 
 
 -------

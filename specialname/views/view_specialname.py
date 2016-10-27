@@ -144,8 +144,8 @@ def payment_paypal_create(request):
 
         # Redirect URLs
         "redirect_urls": {
-            "return_url": "http://localhost:8000/payment/paypal/return",
-            "cancel_url": "http://localhost:8000/"},
+            "return_url": settings.HOSTNAME + reserve('payment_paypal_create'), #"/payment/paypal/return",
+            "cancel_url": settings.HOSTNAME + "/"},
 
         # Transaction
         # A transaction defines the contract of a

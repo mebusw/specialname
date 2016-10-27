@@ -20,7 +20,7 @@ from views import *
 
 
 urlpatterns = [
-    url(r'^myadmin/', admin.site.urls),
+    url(r'^admin/', admin.site.urls),
     url(r'^jsonp$', jsonp),
     url(r'^$', index),
     url(r'^order/(?P<order_id>\d+)$', order),
