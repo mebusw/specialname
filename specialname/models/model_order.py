@@ -11,9 +11,10 @@ class Product(models.Model):
     name = models.CharField(max_length=255)
     description = models.CharField(max_length=255, null=True)
     price = models.DecimalField(max_digits=16, decimal_places=2, default=0)
+    currency = models.CharField(max_length=10, default='USD')
 
     def __unicode__(self):
-        return u'%s / ￥%s' % (self.name, self.price)
+        return u'%s / %s%s' % (self.name, self.price, self.currency)
 
 
 class Order(models.Model):
@@ -33,13 +34,11 @@ class Order(models.Model):
 
     total_price = models.DecimalField(max_digits=16, decimal_places=2, default=0)
     discount_price = models.DecimalField(max_digits=16, decimal_places=2, default=0)
-    unit = models.CharField(max_length=10, null=True, blank=True)
+    currency = models.CharField(max_length=10, null=True, blank=True)
     create_time = models.DateTimeField(auto_now_add=True)
     pay_date = models.DateTimeField(null=True, blank=True)
     deliver_date = models.DateTimeField(null=True)
     state = models.CharField(max_length=10, choices=STATE_CHOICES, default=CREATED)
-    email = models.CharField(max_length=255, null=True, blank=True)
-    client_name = models.CharField(max_length=255, null=True, blank=True)
     deliverable = models.CharField(max_length=255, null=True, blank=True)
 
     pay_channel = models.CharField(max_length=10, choices=PAY_CHOICES, null=True, blank=True)
@@ -47,12 +46,19 @@ class Order(models.Model):
     paypal_payer_id = models.CharField(max_length=255, null=True, blank=True)
     paypal_payment_id = models.CharField(max_length=255, null=True, blank=True)
 
+    client_name = models.CharField(max_length=255, default='')
+    client_email = models.CharField(max_length=255, default='')
+    client_chars = models.CharField(max_length=255, default='')
+    client_gender = models.CharField(max_length=1, default='')
+
+
     def __unicode__(self):
         if self.pay_channel == self.ALIPAY:
-            return u'ALIPAY %s (%s) %s - %s - %s' % (self.discount_price, self.total_price, self.unit, self.state, self.out_trade_no)
+            return u'ALIPAY %s (%s) %s - %s - %s' % (self.discount_price, self.total_price, self.currency, self.state, self.out_trade_no)
         elif self.pay_channel == self.PAYPAL:
-            return u'PAYPAL %s (%s) %s - %s - %s' % (self.discount_price, self.total_price, self.unit, self.state, self.paypal_payment_id)
-        return u'%s (%s) %s - %s' % (self.discount_price, self.total_price, self.unit, self.state,)
+            return u'PAYPAL %s (%s) %s - %s - %s' % (self.discount_price, self.total_price, self.currency, self.state, self.paypal_payment_id)
+        return u'%s (%s) %s - %s' % (self.discount_price, self.total_price, self.currency, self.state,)
+
 
 class OrderItem(models.Model):
     order = models.ForeignKey(Order)

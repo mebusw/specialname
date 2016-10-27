@@ -46,17 +46,17 @@ def _generate_req_seq(aux_id=''):
 
 
 def _create_order():
-    product, created = Product.objects.get_or_create(pk=1, defaults={'name': 'One Name For Life', 'price': 0.01})
+    product, created = Product.objects.get_or_create(pk=1, defaults={'name': 'One Name For Life', 'price': 2.99, 'unit': 'USD'})
     order = Order.objects.create()
 
-    total_price = 0
-    product_count = 1
     amount = 1
     order_item = OrderItem.objects.create(order=order, product=product, amount=amount)
-    total_price += product.price * amount
+    # TODO reduce all OrderItem
+    total_price = amount * order_item.product.price
 
     order.total_price = total_price
     order.discount_price = total_price
+    order.currency = order_item.product.currency
     order.save()
 
     return order
@@ -65,15 +65,17 @@ def payment(request):
     return render_to_response('specialname/payment.html',
                           {'characters': request.POST.get('characters', 'xyz'),
                            'gender': request.POST.get('gender', 0),
-                           # 'order_id': order.id,
+                           'product': get_object_or_404(Product, pk=1)
                            },
                           context_instance=RequestContext(request))
 
 
 def payment_wap(request):
     order = _create_order()
-    order.email = request.POST['email']
+    order.client_email = request.POST['client_email']
     order.client_name = request.POST['client_name']
+    order.client_chars = request.POST['client_chars']
+    order.client_gender = request.POST['client_gender']
     order.pay_channel = order.ALIPAY
     order.out_trade_no = _generate_req_seq()
     order.save()
@@ -122,10 +124,14 @@ def paid_notify_wap(request):
 
 def payment_paypal_create(request):
     order = _create_order()
-    order.email = request.POST['email']
+    order.client_email = request.POST['client_email']
     order.client_name = request.POST['client_name']
+    order.client_chars = request.POST['client_chars']
+    order.client_gender = request.POST['client_gender']
     order.pay_channel = order.PAYPAL
     order.save()
+
+    print dir(order)
 
     paypal.configure({
         "mode": "sandbox", # sandbox or live
@@ -158,15 +164,15 @@ def payment_paypal_create(request):
                 "items": [{
                     "name": "Chinese Name",
                     "sku": "item",
-                    "price": "0.01",
-                    "currency": "USD",
+                    "price": str(order.orderitem_set.all()[0].product.price),
+                    "currency": order.currency,
                     "quantity": 1}]},
 
             # Amount
             # Let's you specify a payment amount.
             "amount": {
-                "total": "0.01",
-                "currency": "USD"},
+                "total": str(order.discount_price),
+                "currency": order.currency},
             "description": "This is the payment transaction description."}]})
 
     # Create Payment and return status

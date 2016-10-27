@@ -1,4 +1,5 @@
 {% extends 'specialname/_base.html' %}
+{% load static %}
 
 
 {% block content %}
@@ -12,4 +13,8 @@
 
 <p>discount_price={{discount_price}}</p>
 <p>deliverable={{order.deliverable}}</p>
+
+<a class="btn btn-info">Share to Facebook</a>
+<!-- http://bihua.51240.com/ -->
+<img src={% static 'media/read_n_writting.png' %} />
 {% endblock %}
