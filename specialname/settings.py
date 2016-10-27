@@ -22,18 +22,18 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'syi@7f*#acr%o9a=a--_&m*#f1!90om827e!jo8zpj(cf#81i#'
 
-# SECURITY WARNING: don't run with debug turned on in production!
 IS_PRODUCTION_ENV = 'SERVER_SOFTWARE' in os.environ
 
 if IS_PRODUCTION_ENV:
-    DEBUG = False
+    # SECURITY WARNING: don't run with debug turned on in production!
+    DEBUG = True
     HOSTNAME = 'http://54.69.158.70:8000'
 else:
     DEBUG = True
     HOSTNAME = 'http://localhost:8000'
 
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition

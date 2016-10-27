@@ -144,7 +144,7 @@ def payment_paypal_create(request):
 
         # Redirect URLs
         "redirect_urls": {
-            "return_url": settings.HOSTNAME + reserve('payment_paypal_create'), #"/payment/paypal/return",
+            "return_url": settings.HOSTNAME + "/payment/paypal/return",
             "cancel_url": settings.HOSTNAME + "/"},
 
         # Transaction
