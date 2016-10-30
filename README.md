@@ -6,6 +6,7 @@
 
 - share to fb/wx
 - algorithm
+- intro/example on index page
 - UI
 - reading/writing of name
 - diff config of sandbox/production

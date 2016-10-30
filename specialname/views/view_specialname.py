@@ -34,11 +34,10 @@ def index(request):
 
 def order(request, order_id):
     order = get_object_or_404(Order, id=order_id)
-    order_items = OrderItem.objects.filter(order=order)
-    return render_to_response('specialname/order.html', {'order_id': order.id, 'email': order.email,
-                                                        'client_name': order.client_name,
-                                                        'deliverable': order.deliverable},
-                              context_instance=RequestContext(request))
+    # order_item = OrderItem.objects.filter(order=order)[0]
+    return render_to_response('specialname/paid.html',
+            {'paymentId': request.GET.get("paymentId", ""),
+             'order': order}, context_instance=RequestContext(request))
 
 
 def _generate_req_seq(aux_id=''):

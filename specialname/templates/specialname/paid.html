@@ -3,7 +3,7 @@
 
 
 {% block content %}
-<h1>PAID</h1>
+<h1>Congratulations, you get a professional Chinese name for a life time</h1>
 
 <p>out_trade_no={{out_trade_no}}</p>
 <p>result={{result}}</p>
@@ -14,7 +14,10 @@
 <p>discount_price={{discount_price}}</p>
 <p>deliverable={{order.deliverable}}</p>
 
-<a class="btn btn-info">Share to Facebook</a>
+<p>
+	<a class="btn btn-info" href="https://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.jackyshen.com%2Forder%2F{{order.id}}" class="article-share-facebook" target="_blank" title="Facebook">Share to Facebook</a>
+</p>
+
 <!-- http://bihua.51240.com/ -->
 <img src={% static 'media/read_n_writting.png' %} />
 {% endblock %}
