@@ -17,6 +17,7 @@ import time
 from random import random
 from specialname.lib.alipaylib import AlipayWap
 import xml.etree.ElementTree as ET
+import urllib
 from specialname.models import *
 import paypalrestsdk as paypal
 
@@ -38,7 +39,7 @@ def order(request, order_id):
 
     return render_to_response('specialname/paid.html',
             {'paymentId': request.GET.get("paymentId", ""),
-             'hostname': settings.HOSTNAME,
+             'hostname': urllib.quote(settings.HOSTNAME),
              'order': order}, context_instance=RequestContext(request))
 
 
@@ -214,7 +215,7 @@ def payment_paypal_return(request):
         return render_to_response('specialname/paid.html',
             {'paymentId': request.GET["paymentId"],
              'discount_price': order.discount_price,
-             'hostname': settings.HOSTNAME,
+             'hostname': urllib.quote(settings.HOSTNAME),
              'order': order}, context_instance=RequestContext(request))
 
     else:
