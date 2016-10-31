@@ -35,8 +35,10 @@ def index(request):
 def order(request, order_id):
     order = get_object_or_404(Order, id=order_id)
     # order_item = OrderItem.objects.filter(order=order)[0]
+
     return render_to_response('specialname/paid.html',
             {'paymentId': request.GET.get("paymentId", ""),
+             'hostname': settings.HOSTNAME,
              'order': order}, context_instance=RequestContext(request))
 
 
@@ -212,6 +214,7 @@ def payment_paypal_return(request):
         return render_to_response('specialname/paid.html',
             {'paymentId': request.GET["paymentId"],
              'discount_price': order.discount_price,
+             'hostname': settings.HOSTNAME,
              'order': order}, context_instance=RequestContext(request))
 
     else:
