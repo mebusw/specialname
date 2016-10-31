@@ -39,7 +39,7 @@ def order(request, order_id):
 
     return render_to_response('specialname/paid.html',
             {'paymentId': request.GET.get("paymentId", ""),
-             'hostname': urllib.quote(settings.HOSTNAME),
+             # 'hostname': urllib.quote(settings.HOSTNAME),
              'order': order}, context_instance=RequestContext(request))
 
 
@@ -215,7 +215,7 @@ def payment_paypal_return(request):
         return render_to_response('specialname/paid.html',
             {'paymentId': request.GET["paymentId"],
              'discount_price': order.discount_price,
-             'hostname': urllib.quote(settings.HOSTNAME),
+             # 'hostname': urllib.quote(settings.HOSTNAME),
              'order': order}, context_instance=RequestContext(request))
 
     else:

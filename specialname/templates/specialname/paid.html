@@ -1,9 +1,19 @@
 {% extends 'specialname/_base.html' %}
 {% load static %}
 
+{% block facebook %}
+    <meta name="description" content="Look at my special Chinese name: {{order.deliverable}}, do you want one as well?">
+    <meta property="og:title" content="Special Chinese Name"/>
+    <meta property="og:description" content="Look at my special Chinese name: {{order.deliverable}}, do you want one as well?"/>
+{% endblock %}
+
+
 
 {% block content %}
 <h1>Congratulations, you get a professional Chinese name for a life time</h1>
+
+
+
 
 <p>paymentId={{paymentId}}</p>
 
@@ -14,6 +24,8 @@
 	<a class="btn btn-info" href="https://www.facebook.com/sharer.php?u=http%3A%2F%2F54.69.158.70%3A8000%2Forder%2F{{order.id}}" class="article-share-facebook" target="_blank" title="Facebook">Share to Facebook</a>
 </p>
 
+
 <!-- http://bihua.51240.com/ -->
 <img src={% static 'media/read_n_writting.png' %} />
+
 {% endblock %}
