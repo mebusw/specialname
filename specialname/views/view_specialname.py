@@ -137,8 +137,14 @@ def payment_paypal_create(request):
 
     paypal.configure({
         "mode": "sandbox", # sandbox or live
+
+        # sandbox
         "client_id": 'AaaPugJL3aRgMCXPBsyF8kB0CWTp4KIv8qHHIrT0RCyfC9sFOdU475Dhp-O_Qrz1cVm_afuMEnlvcYTf',
         "client_secret": 'ECKE9pvmGa_IGKUQz35vt4a_Lsv71y0OxBRLRgvQsSQJR7c0V9UP2Bu80nz_hVlo0mDhIlKk8fj8hAi-' 
+
+        # live
+        "client_id": 'AUm5R0abEKULUvSusff8MhrEvhyKHtnHW3oo5N0KzhjS52Ep1lVyvY4rfXLbYTYO334n6RZl2mSNo7jo',
+        "client_secret": 'EHf3EVvSUO9UmBRSNtBntf4D5JsP-3swtpc0U9BzlZEUeERtVcWqGHJN_wBMGfZhMzFGJQdL2bCCXOe_' 
     })
 
     payment = paypal.Payment({
@@ -197,8 +203,14 @@ def payment_paypal_create(request):
 def payment_paypal_return(request):
     paypal.configure({
         "mode": "sandbox", # sandbox or live
+
+        # sandbox
         "client_id": 'AaaPugJL3aRgMCXPBsyF8kB0CWTp4KIv8qHHIrT0RCyfC9sFOdU475Dhp-O_Qrz1cVm_afuMEnlvcYTf',
         "client_secret": 'ECKE9pvmGa_IGKUQz35vt4a_Lsv71y0OxBRLRgvQsSQJR7c0V9UP2Bu80nz_hVlo0mDhIlKk8fj8hAi-' 
+
+        # live
+        "client_id": 'AUm5R0abEKULUvSusff8MhrEvhyKHtnHW3oo5N0KzhjS52Ep1lVyvY4rfXLbYTYO334n6RZl2mSNo7jo',
+        "client_secret": 'EHf3EVvSUO9UmBRSNtBntf4D5JsP-3swtpc0U9BzlZEUeERtVcWqGHJN_wBMGfZhMzFGJQdL2bCCXOe_' 
     })
 
     payment = paypal.Payment.find(request.GET['paymentId'])
