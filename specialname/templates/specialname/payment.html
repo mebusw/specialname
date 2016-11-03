@@ -8,6 +8,7 @@
 
 
             <p>{{gender}} | {{ characters }} | </p>
+            <!-- Below is for Alipay wap -->
 <!--             <form role="form" class="form-inline" action="./payment_wap" method="POST">
                 {% csrf_token %}
                 <div class="form-group">
@@ -37,7 +38,7 @@
             </form>
  -->
 
-            <form role="form" class="form-inline" action="./payment/paypal/create" method="POST">
+            <form role="form" class="form-inline" action="./payment/paypal/create" method="POST" id="paypal_form">
                 {% csrf_token %}
                 <div class="form-group">
                     <label for="client_name">Name <span style="color:red;">*</span></label>
@@ -72,4 +73,13 @@
 
 
 {% block script %}
+<script type="text/javascript">
+$('#paypal_form')[0].addEventListener('submit', function(event) {
+        if (! (event.target.checkValidity())) {
+            event.preventDefault(); // dismiss the default functionality
+            alert('Please, fill the form'); // error message
+            console.warn('Please, fill the form'); // error message
+        }
+    }, false);
+</script>    
 {% endblock %}
