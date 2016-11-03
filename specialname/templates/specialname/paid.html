@@ -4,7 +4,7 @@
 {% block facebook %}
     <meta property="og:type" content="article">
 	<meta name="description" content="Look at my special Chinese name: {{order.deliverable}}, do you want one as well?"">
-	<meta property="og:title" content="Look at my special Chinese name">
+	<meta property="og:title" content="Look at my special Chinese name {{order.deliverable}}">
 	<meta property="og:url" content="http://54.69.158.70/order/{{order.id}}">
 	<meta property="og:description" content="Look at my special Chinese name: {{order.deliverable}}, do you want one as well?">
 {% endblock %}
@@ -20,6 +20,7 @@
 
 <p>discount_price={{discount_price}}</p>
 <p>deliverable={{order.deliverable}}</p>
+<p>order_id={{order.id}}</p>
 
 <p>
 	<a class="btn btn-info" href="https://www.facebook.com/sharer.php?u=http%3A%2F%2F54.69.158.70%2Forder%2F{{order.id}}" class="article-share-facebook" target="_blank" title="Facebook">Share to Facebook</a>
