@@ -27,7 +27,7 @@ IS_PRODUCTION_ENV = 'SERVER_SOFTWARE' in os.environ
 if IS_PRODUCTION_ENV:
     # SECURITY WARNING: don't run with debug turned on in production!
     DEBUG = True
-    HOSTNAME = 'http://54.69.158.70'
+    HOSTNAME = 'www.namechinesename.com' #'http://54.69.158.70'
 else:
     DEBUG = True
     HOSTNAME = 'http://localhost:8000'
