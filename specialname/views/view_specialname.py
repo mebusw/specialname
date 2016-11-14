@@ -87,7 +87,7 @@ def payment_wap(request):
 
 @csrf_exempt
 def paid_wap(request):
-    # print params
+    params = request.POST.dict()
     is_correct_sign = AlipayWap().is_correct_sign(params)
 
     order = Order.objects.get(out_trade_no=params['out_trade_no'])
