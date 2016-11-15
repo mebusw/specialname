@@ -34,6 +34,14 @@ def choose_name_by_character(characters, data):
     return ordered
 
 
+def choose_name_word_by_tone():
+    """
+    中文词组,英文名,英文名,英文名,权重,honorable,intellectual,elegant,agile,powerful,organized,lucky,precious,artistic,beautiful,reliable,free,,,,
+    :return:
+    """
+    return
+
+
 class TestTrainer(TestCase):
     def test_read_csv_for_male_names(self):
         data = read_csv('male_names.txt')
@@ -60,3 +68,12 @@ class TestTrainer(TestCase):
         user_selected_chars = (0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1)
         names = choose_name_by_character(user_selected_chars, data)
         self.assertListEqual(['C', 'B', 'A'], map(lambda n: n[0], names))
+
+    def test_read_family_names(self):
+        data = read_csv('family_names.txt')
+        self.assertEqual(101, len(data))
+
+    def test_read_name_words(self):
+        data = read_csv('name_words.txt')
+        self.assertEqual(195, len(data))
+
