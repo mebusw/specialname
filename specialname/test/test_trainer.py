@@ -6,8 +6,8 @@ import os
 from pipe import *
 
 
-def read_csv():
-    p = os.path.join(os.path.dirname(__file__), 'male_names.txt')
+def read_csv(filename):
+    p = os.path.join(os.path.dirname(__file__), filename)
     with open(p) as f:
         lines = f.readlines()
         lines = lines | select(lambda l: l.split(','))
@@ -35,9 +35,13 @@ def choose_name_by_character(characters, data):
 
 
 class TestTrainer(TestCase):
-    def test_read_csv(self):
-        data = read_csv()
+    def test_read_csv_for_male_names(self):
+        data = read_csv('male_names.txt')
         self.assertEqual(150, len(data))
+
+    def test_read_csv_for_female_names(self):
+        data = read_csv('female_names.txt')
+        self.assertEqual(148, len(data))
 
     def test_choose_name_by_character(self):
         """
