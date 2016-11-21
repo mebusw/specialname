@@ -20,7 +20,7 @@ import xml.etree.ElementTree as ET
 import urllib
 from specialname.models import *
 import paypalrestsdk as paypal
-
+from algorithm import *
 
 
 def jsonp(request):
@@ -38,9 +38,9 @@ def order(request, order_id):
     # order_item = OrderItem.objects.filter(order=order)[0]
 
     return render_to_response('specialname/paid.html',
-            {'paymentId': request.GET.get("paymentId", ""),
-             # 'hostname': urllib.quote(settings.HOSTNAME),
-             'order': order}, context_instance=RequestContext(request))
+                              {'paymentId': request.GET.get("paymentId", ""),
+                               # 'hostname': urllib.quote(settings.HOSTNAME),
+                               'order': order}, context_instance=RequestContext(request))
 
 
 def _generate_req_seq(aux_id=''):
@@ -48,7 +48,8 @@ def _generate_req_seq(aux_id=''):
 
 
 def _create_order():
-    product, created = Product.objects.get_or_create(pk=1, defaults={'name': 'One Name For Life', 'price': 2.99, 'unit': 'USD'})
+    product, created = Product.objects.get_or_create(pk=1, defaults={'name': 'One Name For Life', 'price': 2.99,
+                                                                     'unit': 'USD'})
     order = Order.objects.create()
 
     amount = 1
@@ -63,13 +64,14 @@ def _create_order():
 
     return order
 
+
 def payment(request):
     return render_to_response('specialname/payment.html',
-                          {'characters': request.POST.get('characters', 'xyz'),
-                           'gender': request.POST.get('gender', 0),
-                           'product': get_object_or_404(Product, pk=1)
-                           },
-                          context_instance=RequestContext(request))
+                              {'characters': request.POST.get('characters', 'xyz'),
+                               'gender': request.POST.get('gender', 0),
+                               'product': get_object_or_404(Product, pk=1),
+                               },
+                              context_instance=RequestContext(request))
 
 
 def payment_wap(request):
@@ -91,6 +93,7 @@ def paid_wap(request):
     is_correct_sign = AlipayWap().is_correct_sign(params)
 
     order = Order.objects.get(out_trade_no=params['out_trade_no'])
+    #TODO
     order.deliverable = '王二狗 赵淑芬'
     order.state = Order.PAID
     order.pay_date = datetime_safe.datetime.now()
@@ -123,7 +126,6 @@ def paid_notify_wap(request):
     return HttpResponse(verify_result)
 
 
-
 def payment_paypal_create(request):
     order = _create_order()
     order.client_email = request.POST['client_email']
@@ -133,14 +135,12 @@ def payment_paypal_create(request):
     order.pay_channel = order.PAYPAL
     order.save()
 
-    print dir(order)
-
     paypal.configure({
-        "mode": "sandbox", # sandbox or live
+        "mode": "sandbox",  # sandbox or live
 
         # sandbox
         "client_id": 'AaaPugJL3aRgMCXPBsyF8kB0CWTp4KIv8qHHIrT0RCyfC9sFOdU475Dhp-O_Qrz1cVm_afuMEnlvcYTf',
-        "client_secret": 'ECKE9pvmGa_IGKUQz35vt4a_Lsv71y0OxBRLRgvQsSQJR7c0V9UP2Bu80nz_hVlo0mDhIlKk8fj8hAi-', 
+        "client_secret": 'ECKE9pvmGa_IGKUQz35vt4a_Lsv71y0OxBRLRgvQsSQJR7c0V9UP2Bu80nz_hVlo0mDhIlKk8fj8hAi-',
 
         # live
         "client_id": 'AUm5R0abEKULUvSusff8MhrEvhyKHtnHW3oo5N0KzhjS52Ep1lVyvY4rfXLbYTYO334n6RZl2mSNo7jo',
@@ -202,7 +202,7 @@ def payment_paypal_create(request):
 
 def payment_paypal_return(request):
     paypal.configure({
-        "mode": "sandbox", # sandbox or live
+        "mode": "sandbox",  # sandbox or live
 
         # sandbox
         "client_id": 'AaaPugJL3aRgMCXPBsyF8kB0CWTp4KIv8qHHIrT0RCyfC9sFOdU475Dhp-O_Qrz1cVm_afuMEnlvcYTf',
@@ -221,15 +221,14 @@ def payment_paypal_return(request):
         order.paypal_payer_id = request.GET['PayerID']
         order.state = Order.PAID
         order.pay_date = datetime_safe.datetime.now()
-        order.deliverable = '韩大伟'
+        order.deliverable = choose_name_by_character_and_gender(order.client_chars, order.client_gender)[0:5]
+        print order.deliverable
         order.save()
 
         return render_to_response('specialname/paid.html',
-            {'paymentId': request.GET["paymentId"],
-             'discount_price': order.discount_price,
-             # 'hostname': urllib.quote(settings.HOSTNAME),
-             'order': order}, context_instance=RequestContext(request))
-
+                                  {'paymentId': request.GET["paymentId"],
+                                   'discount_price': order.discount_price,
+                                   'order': order}, context_instance=RequestContext(request))
     else:
         print(payment.error)
         return HttpResponse(payment.error)

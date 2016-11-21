@@ -3,10 +3,10 @@
 
 {% block facebook %}
     <meta property="og:type" content="article">
-	<meta name="description" content="Look at my special Chinese name: {{order.deliverable}}, do you want one as well?"">
-	<meta property="og:title" content="Look at my special Chinese name {{order.deliverable}}">
+	<meta name="description" content="Look at my special Chinese name: {{order.deliverable.0.0}}, do you want one as well?"">
+	<meta property="og:title" content="Look at my special Chinese name {{order.deliverable.0.0}}">
 	<meta property="og:url" content="http://www.namechinesename.com/order/{{order.id}}">
-	<meta property="og:description" content="Look at my special Chinese name: {{order.deliverable}}, do you want one as well?">
+	<meta property="og:description" content="Look at my special Chinese name: {{order.deliverable.0.0}}, do you want one as well?">
 {% endblock %}
 
 
@@ -21,6 +21,11 @@
 <p>discount_price={{discount_price}}</p>
 <p>deliverable={{order.deliverable}}</p>
 <p>order_id={{order.id}}</p>
+
+<h3>Your names:</h3>
+{% for dlv in order.deliverable %}
+	<p>{{dlv.0}} {{dlv.1}}</p>
+{% endfor %}
 
 <p>
 	<a class="btn btn-info" href="https://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.namechinesename.com%2Forder%2F{{order.id}}" class="article-share-facebook" target="_blank" title="Facebook">Share to Facebook</a>
