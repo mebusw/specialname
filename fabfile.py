@@ -60,7 +60,7 @@ def restart():
     """
     fab restart -H 54.69.158.70 -u root
     """
-        with cd('~/speciname/'):
+    with cd('~/speciname/'):
         # run('./s.sh')
         with settings(warn_only=True):
             run('pkill gunicorn')
