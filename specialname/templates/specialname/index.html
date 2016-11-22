@@ -14,8 +14,8 @@
                     </div>
                 </div>
                 <div class="row">
-                    <a href="#" class="genders" x-gender=0><img src="{% static 'media/girl.gif' %}"></a> 
-                    <a href="#" class="genders" x-gender=1><img src="{% static 'media/boy.gif' %}"></a> 
+                    <a href="#" class="genders" x-gender=0><img src="{% static 'media/girl.gif' %}"></a><span>Girl</span>
+                    <a href="#" class="genders" x-gender=1><img src="{% static 'media/boy.gif' %}"></a><span>Boy</span>
                 </div>
 
             </div>
@@ -30,7 +30,7 @@
                     <div class="row text-center">
                         <div class="col-xs-6 col-sm-4 col-md-2 checkbox-character">
                             <input type="checkbox" value="0" id="char0" name="" />
-                            <label for="char0">Hornorary</label>
+                            <label for="char0">Honorable</label>
                         </div>
                         <div class="col-xs-6 col-sm-4 col-md-2 checkbox-character">
                             <input type="checkbox" value="1" id="char1" name="" />
@@ -50,7 +50,7 @@
                         </div>
                         <div class="col-xs-6 col-sm-4 col-md-2 checkbox-character">
                             <input type="checkbox" value="5" id="char5" name="" />
-                            <label for="char5">Ordered</label>
+                            <label for="char5">Organized</label>
                         </div>
                         <div class="col-xs-6 col-sm-4 col-md-2 checkbox-character">
                             <input type="checkbox" value="6" id="char6" name="" />
@@ -110,7 +110,7 @@
                         </div>
                         <div class="col-sm-12 col-md-6">
                             <h2 style="font-style: normal;font-weight: normal;">Design a Chinese name for life</h2>
-                            <p style="font-style: normal;font-weight: normal;">我是中国Special Name 公司的CEO以及创始人-Dido Mok。在过去的12年中，我经常到访中国。每当我在中国的时候，我经常会被同事要求帮他们和他们的孩子取一个特别的英文名。如同中文名一样，当会见朋友或工作伙伴时，他们会将英文名与您孩子的性格紧密联系在一起，同时名字也会给别人留下重要的第一印象。因此给孩子取名字不仅是极高的殊荣也是一份重大的责任。在将来，您的孩子的英文名字会出现在他们的大学申请书上，亦或是名片上。他们的名字应该代表他们希望被人记住的形象。 </p>
+                            <p style="font-style: normal;font-weight: normal;">I'm Dido, CEO and co-founder of "Name Chinese Name". In the past years, I meet many non-Chinese-spoken friends who come to chinese for a tour or work. They trust me to design a special Chinese name for their business. Like English name, they want to connect their Chinese name with own characteristics and favourites. In the mean while, a name impressed significantly others at the first glance, so it's a honor and duty to design name. In the future, their Chinese name will be printed on business card, social media or applications.  So your name should represent your image.</p>
 
                         </div>
                     </div>
@@ -135,7 +135,7 @@
                 $('#gender').val($(this).attr('x-gender'))
                 
                 $('body').animate({
-                    scrollTop: 500
+                    scrollTop: $('#chars').position().top
                 }, 750);
             })
 
