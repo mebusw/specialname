@@ -4,7 +4,7 @@ from pipe import *
 import os
 
 
-def choose_name_by_character_and_gender(characters, gender):
+def _choose_name_by_character_and_gender(characters, gender):
     data = _read_csv('male_names.txt') if int(gender) == 0 else _read_csv('female_names.txt')
     return _choose_name_by_character(characters.split(',') | select(lambda x: int(x)) | as_list, data)
 
@@ -37,7 +37,7 @@ def _choose_name_by_character(characters, data):
     return ordered
 
 
-def _choose_name_word_by_tone(characters, english_name, data):
+def _find_existing_name_word(english_name, data):
     """
     中文词组,英文名,英文名,英文名,权重,honorable,intellectual,elegant,agile,powerful,organized,lucky,precious,artistic,beautiful,reliable,free,,,,
     :return:
@@ -45,3 +45,13 @@ def _choose_name_word_by_tone(characters, english_name, data):
     names = data | where(lambda d: english_name in d[1:4]) | as_list
     # print names
     return map(lambda n: n[0], names)
+
+
+def deliver_name(order_client_chars, order_client_gender):
+    chinese_chars = _choose_name_by_character_and_gender(order_client_chars, order_client_gender)[0:10]
+    #TODO
+    # chinese_chars = filter_chinese_chars_combinations_by_tones(chinese_chars)
+    # chinese_word = _choose_name_word_by_tone()
+    # combine(chinese_chars, chinese_word)
+    # fetch_pinyin_for_chinese()
+    return chinese_chars

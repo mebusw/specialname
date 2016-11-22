@@ -221,7 +221,7 @@ def payment_paypal_return(request):
         order.paypal_payer_id = request.GET['PayerID']
         order.state = Order.PAID
         order.pay_date = datetime_safe.datetime.now()
-        order.deliverable = choose_name_by_character_and_gender(order.client_chars, order.client_gender)[0:5]
+        order.deliverable = deliver_name(order.client_chars, order.client_gender)
         print order.deliverable
         order.save()
 
@@ -232,3 +232,5 @@ def payment_paypal_return(request):
     else:
         print(payment.error)
         return HttpResponse(payment.error)
+
+
