@@ -163,6 +163,11 @@
                 $('#myDiv').empty();
                 $('#myDiv').show();
                 $('#myDiv').append('<p><b>Our expert is naming you...</b></p>');
+
+                $('body').animate({
+                    scrollTop: $('#myDiv').position().top
+                }, 750);
+
                 var loader = $("#myDiv").percentageLoader({ width : 180, height : 180, progress : 0, value : ''})
                 $('#myDiv').children().addClass('center-block')
                 
