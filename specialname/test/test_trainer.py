@@ -43,18 +43,19 @@ class TestAlgorithmExistingChineseWords(TestCase):
         self.assertEqual(195, len(data))
 
     def test_find_existing_name_word(self):
-        data = (
-            '拓理,Tony,Terry,,,0,2,0,1,2,0,0,1,0,0,0,0,,,,'.split(','),
-            '卓屹,George,Gerald,,,0,1,0,0,2,0,2,1,0,0,0,0,,,,'.split(','),
-            '思奋,Stephen,Stanford,,,0,2,0,0,2,0,0,0,0,0,0,0,,,,'.split(','),
-        )
-        english_name = 'Gerald'
-        names = _find_existing_name_word(english_name, data)
-        self.assertEqual('卓屹', names[0])
+        data = _read_csv('name_words.txt')
+        english_name = data[0][1]
+        names = _find_existing_name_word(english_name)
+        self.assertEqual(data[0][0], names[0])
+
+    def test_find_no_existing_name_word(self):
+        english_name = 'XYZ'
+        names = _find_existing_name_word(english_name)
+        self.assertEqual([], names)
 
 
 class TestAlgorithmDeliverCombinedNames(TestCase):
     def test_deliver_name(self):
-        computed_chinese_names = deliver_name('0,0,1,1,0,0,0,0,0,1,1,1', '1')
-        # self.assertEqual("", computed_chinese_names)
-        # self.assertEqual(3, len(computed_chinese_names))
+        delivered_chinese_names = deliver_name(order_client_chars='0,0,1,1,0,0,0,0,0,1,1,1', order_client_gender='1', english_name='')
+        self.assertEqual("", delivered_chinese_names)
+        self.assertEqual(3, len(delivered_chinese_names))
