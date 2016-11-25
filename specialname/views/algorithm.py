@@ -1,5 +1,5 @@
 #!encoding=utf8
-
+import itertools
 from pipe import *
 import os
 
@@ -71,19 +71,21 @@ def _choose_family_name_by_character(order_client_chars):
     return {'申', 'shen', 1, 3}
 
 
-def combine_chinese_chars(chinese_chars):
+def _mix_chinese_chars(chinese_chars):
     """
     组合单字成为二字词组
-    :param chinese_chars:
+    :param chinese_chars: [{'汉', 拼音, 音调, 打分}, ...]
     :return: [{'词组', '拼音组', 音调1, 音调2}]
     """
-    return []
+    ### Assume 3 chars to mix
+    return [(0, 1), (0, 2), (1, 0), (1, 2), (2, 0), (2, 1)] | \
+        select(lambda x: chinese_chars[x[0]][0] + chinese_chars[x[1]][0])
 
 
 def deliver_name(order_client_chars, order_client_gender, english_name=''):
     chinese_chars = _choose_name_by_character_and_gender(order_client_chars, order_client_gender)[
                     0:10]  # TODO itertools.count(5) | take(10) | islice(2,5) | as_list
-    chinese_char_combinations = combine_chinese_chars(chinese_chars)
+    chinese_char_combinations = _mix_chinese_chars(chinese_chars)
     chinese_word = _find_existing_name_word(english_name)
     chinese_family_name = _choose_family_name_by_character(order_client_chars)
     chinese_names = _filter_chinese_names_by_tones(chinese_family_name, chinese_char_combinations, chinese_word)

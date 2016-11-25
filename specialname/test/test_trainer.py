@@ -2,7 +2,9 @@
 
 from django.test import TestCase
 from mock import Mock
-from ..views.algorithm import _read_csv, _choose_name_by_character, _find_existing_name_word, deliver_name
+from pipe import *
+from ..views.algorithm import _read_csv, _choose_name_by_character, _find_existing_name_word, _mix_chinese_chars, \
+    deliver_name
 
 
 class TestAlgorithmSingleChineseChars(TestCase):
@@ -56,6 +58,14 @@ class TestAlgorithmExistingChineseWords(TestCase):
 
 class TestAlgorithmDeliverCombinedNames(TestCase):
     def test_deliver_name(self):
-        delivered_chinese_names = deliver_name(order_client_chars='0,0,1,1,0,0,0,0,0,1,1,1', order_client_gender='1', english_name='')
+        delivered_chinese_names = deliver_name(order_client_chars='0,0,1,1,0,0,0,0,0,1,1,1', order_client_gender='1',
+                                               english_name='')
         self.assertEqual("", delivered_chinese_names)
         self.assertEqual(3, len(delivered_chinese_names))
+
+
+class TestAlgorithmMixChineseChars(TestCase):
+    def test_mix(self):
+        # [('汉', 拼音, 音调, 打分), ...]
+        result = _mix_chinese_chars([('大', 'da', 4, 5), ('家', 'jia', 1, 3), ('好', 'hao', 3, 2)]) | as_list
+        self.assertEqual(['大家', '大好', '家大', '家好', '好大', '好家'], result)
