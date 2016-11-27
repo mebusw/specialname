@@ -4,7 +4,7 @@ from django.test import TestCase
 from mock import Mock
 from pipe import *
 from ..views.algorithm import _read_csv, _choose_name_by_character, _find_existing_name_word, _mix_chinese_chars, \
-    deliver_name
+    deliver_name, _choose_family_name_by_character
 
 
 class TestAlgorithmSingleChineseChars(TestCase):
@@ -38,6 +38,17 @@ class TestAlgorithmSingleChineseChars(TestCase):
         names = _choose_name_by_character(user_selected_chars, data)
         self.assertListEqual(['C', 'B', 'A'], map(lambda n: n[0], names))
 
+    def test_choose_family_name_by_character(self):
+        # TODO
+        user_selected_chars = (1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0)
+        data = (
+            ('王', 'wáng', '2', '2000'),
+            ('李', 'lǐ', '3', '2000'),
+            ('张', 'zhāng', '1', '2000'),
+        )
+        family_name = _choose_family_name_by_character(user_selected_chars, data=data)
+        self.assertTrue(family_name[0] in ['王', '李', '张'])
+
 
 class TestAlgorithmExistingChineseWords(TestCase):
     def test_read_name_words(self):
@@ -47,12 +58,12 @@ class TestAlgorithmExistingChineseWords(TestCase):
     def test_find_existing_name_word(self):
         data = _read_csv('name_words.txt')
         english_name = data[0][1]
-        names = _find_existing_name_word(english_name)
-        self.assertEqual(data[0][0], names[0])
+        names = _find_existing_name_word(english_name, data=data)
+        self.assertEqual(data[0][0], names[0][0])
 
     def test_find_no_existing_name_word(self):
         english_name = 'XYZ'
-        names = _find_existing_name_word(english_name)
+        names = _find_existing_name_word(english_name, data=[])
         self.assertEqual([], names)
 
 

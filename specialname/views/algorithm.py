@@ -2,6 +2,7 @@
 import itertools
 from pipe import *
 import os
+from random import random
 
 
 def _parse_to_int_array(characters):
@@ -41,13 +42,12 @@ def _choose_name_by_character(characters, data):
     return ordered
 
 
-def _find_existing_name_word(english_name, client_chars=[]):
+def _find_existing_name_word(english_name, client_chars=[], data=[]):
     """
     中文词组,英文名,英文名,英文名,权重,honorable,intellectual,elegant,agile,powerful,organized,lucky,precious,artistic,beautiful,reliable,free,,,,
     :return: {'中文二字词组', '拼音组', 音调1, 音调2, 打分}
     """
-    data = _read_csv('name_words.txt')
-    names = data | where(lambda d: english_name in d[1:4]) | select(lambda n: n[0]) | as_list
+    names = data | where(lambda d: english_name in d[1:4]) | select(lambda n: (n[0], 'pinyin', 1, 1, 5)) | as_list
     return names
 
 
@@ -62,13 +62,17 @@ def _filter_chinese_names_by_tones(chinese_family_name, chinese_char_combination
     return [{'刘德华', 'liu de hua'}, {'周润发', 'zhou run fa'}]
 
 
-def _choose_family_name_by_character(order_client_chars):
+def _choose_family_name_by_character(order_client_chars, data):
     """
 
     :param order_client_chars:
     :return: {'姓', 拼音, 音调, 打分}
     """
-    return {'申', 'shen', 1, 3}
+    # TODO 姓氏缺性格分数
+    rand = int(random() * len(data))
+    # return {'申', 'shen', 1, 3}
+    d = data[rand]
+    return d[0], d[1], d[2], 5
 
 
 def _mix_chinese_chars(chinese_chars):
@@ -79,14 +83,14 @@ def _mix_chinese_chars(chinese_chars):
     """
     ### Assume 3 chars to mix
     return [(0, 1), (0, 2), (1, 0), (1, 2), (2, 0), (2, 1)] | \
-        select(lambda x: chinese_chars[x[0]][0] + chinese_chars[x[1]][0])
+           select(lambda x: chinese_chars[x[0]][0] + chinese_chars[x[1]][0])
 
 
 def deliver_name(order_client_chars, order_client_gender, english_name=''):
     chinese_chars = _choose_name_by_character_and_gender(order_client_chars, order_client_gender)[
                     0:10]  # TODO itertools.count(5) | take(10) | islice(2,5) | as_list
     chinese_char_combinations = _mix_chinese_chars(chinese_chars)
-    chinese_word = _find_existing_name_word(english_name)
-    chinese_family_name = _choose_family_name_by_character(order_client_chars)
+    chinese_word = _find_existing_name_word(english_name, [], data=_read_csv('name_words.txt'))
+    chinese_family_name = _choose_family_name_by_character(order_client_chars, data=_read_csv('family_names.txt'))
     chinese_names = _filter_chinese_names_by_tones(chinese_family_name, chinese_char_combinations, chinese_word)
     return chinese_names
