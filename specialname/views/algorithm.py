@@ -70,9 +70,8 @@ def _choose_family_name_by_character(order_client_chars, data):
     """
     # TODO 姓氏缺性格分数
     rand = int(random() * len(data))
-    # return {'申', 'shen', 1, 3}
     d = data[rand]
-    return d[0], d[1], d[2], 5
+    return d[0], d[1], int(d[2]), 5
 
 
 def _mix_chinese_chars(chinese_chars):
@@ -101,5 +100,6 @@ def deliver_name(order_client_chars, order_client_gender, english_name=''):
     chinese_word = _find_existing_name_word(english_name, [], data=_read_csv('name_words.txt'))
     print '======', chinese_word
     chinese_family_name = _choose_family_name_by_character(order_client_chars, data=_read_csv('family_names.txt'))
+    print '=========', chinese_family_name
     chinese_names = _filter_chinese_names_by_tones(chinese_family_name, chinese_char_combinations, chinese_word)
     return chinese_names
