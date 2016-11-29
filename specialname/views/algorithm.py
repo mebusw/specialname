@@ -44,10 +44,10 @@ def _choose_name_by_character(characters, data):
 
 def _find_existing_name_word(english_name, client_chars=[], data=[]):
     """
-    中文词组,英文名,英文名,英文名,权重,honorable,intellectual,elegant,agile,powerful,organized,lucky,precious,artistic,beautiful,reliable,free,,,,
+    中文词组,拼音组,英文名,英文名,英文名,权重,honorable,intellectual,elegant,agile,powerful,organized,lucky,precious,artistic,beautiful,reliable,free,,,,
     :return: {'中文二字词组', '拼音组', 音调1, 音调2, 打分}
     """
-    names = data | where(lambda d: english_name in d[1:4]) | select(lambda n: (n[0], 'pinyin', 1, 1, 5)) | as_list
+    names = data | where(lambda d: english_name in d[2:5]) | select(lambda n: (n[0], n[1], 4, 1, 5)) | as_list
     return names
 
 
@@ -78,10 +78,11 @@ def _choose_family_name_by_character(order_client_chars, data):
 def _mix_chinese_chars(chinese_chars):
     """
     组合单字成为二字词组
+    Assume 3 chars to mix
+
     :param chinese_chars: [{'汉', 拼音, 音调, 打分}, ...]
     :return: [{'词组', '拼音组', 音调1, 音调2, 平均分}]
     """
-    ### Assume 3 chars to mix
     return [(0, 1), (0, 2), (1, 0), (1, 2), (2, 0), (2, 1)] | \
            select(lambda x: [
                (chinese_chars[x[0]][0] + chinese_chars[x[1]][0]),

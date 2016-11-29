@@ -57,7 +57,7 @@ class TestAlgorithmExistingChineseWords(TestCase):
 
     def test_find_existing_name_word(self):
         data = _read_csv('name_words.txt')
-        english_name = data[0][1]
+        english_name = data[0][2]
         names = _find_existing_name_word(english_name, data=data)
         self.assertEqual(data[0][0], names[0][0])
 
@@ -81,7 +81,6 @@ class TestAlgorithmMixChineseChars(TestCase):
         # [{'词组', '拼音组', 音调1, 音调2, 平均分}, ...]
         result = _mix_chinese_chars([('大', 'da', 4, 5), ('家', 'jia', 1, 3), ('好', 'hao', 3, 2)])
 
-        print result
         self.assertEqual(['大家', '大好', '家大', '家好', '好大', '好家'], result | select(lambda x: x[0]) | as_list)
         self.assertEqual(['dajia', 'dahao', 'jiada', 'jiahao', 'haoda', 'haojia'],
                          result | select(lambda x: x[1]) | as_list)
