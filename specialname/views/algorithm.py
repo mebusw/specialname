@@ -79,11 +79,17 @@ def _mix_chinese_chars(chinese_chars):
     """
     组合单字成为二字词组
     :param chinese_chars: [{'汉', 拼音, 音调, 打分}, ...]
-    :return: [{'词组', '拼音组', 音调1, 音调2}]
+    :return: [{'词组', '拼音组', 音调1, 音调2, 平均分}]
     """
     ### Assume 3 chars to mix
     return [(0, 1), (0, 2), (1, 0), (1, 2), (2, 0), (2, 1)] | \
-           select(lambda x: chinese_chars[x[0]][0] + chinese_chars[x[1]][0])
+           select(lambda x: [
+               (chinese_chars[x[0]][0] + chinese_chars[x[1]][0]),
+               (chinese_chars[x[0]][1] + chinese_chars[x[1]][1]),
+               (chinese_chars[x[0]][2]),
+               (chinese_chars[x[1]][2]),
+               ((chinese_chars[x[0]][3] + chinese_chars[x[1]][3]) / 2.0),
+           ]) | as_list
 
 
 def deliver_name(order_client_chars, order_client_gender, english_name=''):
