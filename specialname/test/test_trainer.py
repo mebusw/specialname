@@ -66,14 +66,11 @@ class TestAlgorithmExistingChineseWords(TestCase):
         names = _find_existing_name_word(english_name, data=[])
         self.assertEqual([], names)
 
-
-class TestAlgorithmDeliverCombinedNames(TestCase):
-    def test_deliver_name(self):
-        delivered_chinese_names = deliver_name(order_client_chars='0,0,1,1,0,0,0,0,0,1,1,1', order_client_gender='1',
-                                               english_name='')
-        # FIXME
-        # self.assertEqual("", delivered_chinese_names)
-        # self.assertEqual(3, len(delivered_chinese_names))
+    def test_empty_english_name(self):
+        data = _read_csv('name_words.txt')
+        english_name = ''
+        names = _find_existing_name_word(english_name, data=data)
+        self.assertEqual([], names)
 
 
 class TestAlgorithmMixChineseChars(TestCase):
@@ -87,3 +84,12 @@ class TestAlgorithmMixChineseChars(TestCase):
         self.assertEqual([4, 4, 1, 1, 3, 3], result | select(lambda x: x[2]) | as_list)
         self.assertEqual([1, 3, 4, 3, 4, 1], result | select(lambda x: x[3]) | as_list)
         self.assertEqual([4, 3.5, 4, 2.5, 3.5, 2.5], result | select(lambda x: x[4]) | as_list)
+
+
+class TestAlgorithmDeliverCombinedNames(TestCase):
+    def test_deliver_name(self):
+        delivered_chinese_names = deliver_name(order_client_chars='0,0,1,1,0,0,0,0,0,1,1,1', order_client_gender='1',
+                                               english_name='Jack')
+        # FIXME
+        # self.assertEqual("", delivered_chinese_names)
+        # self.assertEqual(3, len(delivered_chinese_names))

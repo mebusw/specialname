@@ -47,7 +47,7 @@ def _find_existing_name_word(english_name, client_chars=[], data=[]):
     中文词组,拼音组,英文名,英文名,英文名,权重,honorable,intellectual,elegant,agile,powerful,organized,lucky,precious,artistic,beautiful,reliable,free,,,,
     :return: {'中文二字词组', '拼音组', 音调1, 音调2, 打分}
     """
-    names = data | where(lambda d: english_name in d[2:5]) | select(lambda n: (n[0], n[1], 4, 1, 5)) | as_list
+    names = data | where(lambda d: english_name != '' and english_name in d[2:5]) | select(lambda n: (n[0], n[1], 4, 1, 5)) | as_list
     return names
 
 
@@ -87,8 +87,8 @@ def _mix_chinese_chars(chinese_chars):
            select(lambda x: [
                (chinese_chars[x[0]][0] + chinese_chars[x[1]][0]),
                (chinese_chars[x[0]][1] + chinese_chars[x[1]][1]),
-               (chinese_chars[x[0]][2]),
-               (chinese_chars[x[1]][2]),
+               (int(chinese_chars[x[0]][2])),
+               (int(chinese_chars[x[1]][2])),
                ((chinese_chars[x[0]][3] + chinese_chars[x[1]][3]) / 2.0),
            ]) | as_list
 
@@ -97,7 +97,9 @@ def deliver_name(order_client_chars, order_client_gender, english_name=''):
     chinese_chars = _choose_name_by_character_and_gender(order_client_chars, order_client_gender)[
                     0:10]  # TODO itertools.count(5) | take(10) | islice(2,5) | as_list
     chinese_char_combinations = _mix_chinese_chars(chinese_chars)
+    print '===========', chinese_char_combinations
     chinese_word = _find_existing_name_word(english_name, [], data=_read_csv('name_words.txt'))
+    print '======', chinese_word
     chinese_family_name = _choose_family_name_by_character(order_client_chars, data=_read_csv('family_names.txt'))
     chinese_names = _filter_chinese_names_by_tones(chinese_family_name, chinese_char_combinations, chinese_word)
     return chinese_names
