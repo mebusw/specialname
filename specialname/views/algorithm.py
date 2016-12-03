@@ -47,19 +47,48 @@ def _find_existing_name_word(english_name, client_chars=[], data=[]):
     中文词组,拼音组,英文名,英文名,英文名,权重,honorable,intellectual,elegant,agile,powerful,organized,lucky,precious,artistic,beautiful,reliable,free,,,,
     :return: {'中文二字词组', '拼音组', 音调1, 音调2, 打分}
     """
-    names = data | where(lambda d: english_name != '' and english_name in d[2:5]) | select(lambda n: (n[0], n[1], 4, 1, 5)) | as_list
+    names = data | where(lambda d: english_name != '' and english_name in d[2:5]) | select(
+        lambda n: (n[0], n[1], 4, 1, 5)) | as_list
     return names
 
 
 def _filter_chinese_names_by_tones(chinese_family_name, chinese_char_combinations, chinese_word):
     """
 
-    :param chinese_family_name: 中文姓
-    :param chinese_char_combinations: 中文字组合
-    :param chinese_word: 中文现有词组
-    :return: 根据读音平仄进行二次打分
+    :param chinese_family_name: 中文姓 ('姓', '拼音', 音调, 打分)
+    :param chinese_char_combinations: 中文字组合 ('组合', '拼音', 音调1, 音调2, 打分)
+    :param chinese_word: 中文现有词组 ('词组', '拼音', 音调1, 音调2, 打分)
+
+    perfer=2: 平仄平,平平平,仄仄平,仄平平
+    normal=1: ~
+    refuse=0: 仄仄仄
+
+    :return: 根据三个汉字的音调平仄进行二次打分rating 0~2
     """
-    return [{'刘德华', 'liu de hua'}, {'周润发', 'zhou run fa'}]
+
+    def pingze_rating(ccc):
+        rating = 1
+        are_ping = map(lambda t: t in (1, 2), ccc)
+        if are_ping in (
+                [True, False, True], [True, True, True], [False, False, True], [False, True, True]):
+            rating = 2
+        elif are_ping == [False, False, False]:
+            rating = 0
+        return rating
+
+    chinese_char_combinations.extend(chinese_word)
+    # print '<<<<<<', chinese_char_combinations
+    full_names_to_be_filtered = map(lambda w:
+                                    [chinese_family_name[0] + w[0],
+                                     chinese_family_name[1] + ' ' + w[1],
+                                     chinese_family_name[2],
+                                     w[2],
+                                     w[3],
+                                     (chinese_family_name[3] + w[4]) / 2,
+                                     ],
+                                    chinese_char_combinations)
+    # print '>>>>>>', full_names_to_be_filtered
+    return map(lambda fnm: list(fnm) + [pingze_rating(fnm[2:5])], full_names_to_be_filtered)
 
 
 def _choose_family_name_by_character(order_client_chars, data):
@@ -103,3 +132,9 @@ def deliver_name(order_client_chars, order_client_gender, english_name=''):
     print '=========', chinese_family_name
     chinese_names = _filter_chinese_names_by_tones(chinese_family_name, chinese_char_combinations, chinese_word)
     return chinese_names
+
+
+# TODO
+class Chinese(object):
+    def __add__(self, other):
+        return other

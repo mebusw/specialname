@@ -4,7 +4,7 @@ from django.test import TestCase
 from mock import Mock
 from pipe import *
 from ..views.algorithm import _read_csv, _choose_name_by_character, _find_existing_name_word, _mix_chinese_chars, \
-    deliver_name, _choose_family_name_by_character
+    deliver_name, _choose_family_name_by_character, _filter_chinese_names_by_tones
 
 
 class TestAlgorithmSingleChineseChars(TestCase):
@@ -75,7 +75,6 @@ class TestAlgorithmExistingChineseWords(TestCase):
 
 class TestAlgorithmMixChineseChars(TestCase):
     def test_mix(self):
-        # [{'词组', '拼音组', 音调1, 音调2, 平均分}, ...]
         result = _mix_chinese_chars([('大', 'da', 4, 5), ('家', 'jia', 1, 3), ('好', 'hao', 3, 2)])
 
         self.assertEqual(['大家', '大好', '家大', '家好', '好大', '好家'], result | select(lambda x: x[0]) | as_list)
@@ -84,6 +83,18 @@ class TestAlgorithmMixChineseChars(TestCase):
         self.assertEqual([4, 4, 1, 1, 3, 3], result | select(lambda x: x[2]) | as_list)
         self.assertEqual([1, 3, 4, 3, 4, 1], result | select(lambda x: x[3]) | as_list)
         self.assertEqual([4, 3.5, 4, 2.5, 3.5, 2.5], result | select(lambda x: x[4]) | as_list)
+
+
+class TestToneFilter(TestCase):
+    def test_filter_chinese_names_by_tones(self):
+        result = _filter_chinese_names_by_tones(chinese_family_name=['申', 'shen', 1, 5],
+                                                chinese_char_combinations=[('德华', 'de hua', 2, 2, 5),
+                                                                           ('润发', 'run fa', 4, 1, 5)],
+                                                chinese_word=[('彦祖', 'yan zu', 4, 3, 5)], )
+        self.assertEqual([['申德华', 'shen de hua', 1, 2, 2, 5, 2],
+                          ['申润发', 'shen run fa', 1, 4, 1, 5, 2],
+                          ['申彦祖', 'shen yan zu', 1, 4, 3, 5, 1],
+                          ], result)
 
 
 class TestAlgorithmDeliverCombinedNames(TestCase):
