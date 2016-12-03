@@ -57,7 +57,7 @@ class TestAlgorithmExistingChineseWords(TestCase):
 
     def test_find_existing_name_word(self):
         data = _read_csv('name_words.txt')
-        english_name = data[0][2]
+        english_name = data[0][4]
         names = _find_existing_name_word(english_name, data=data)
         self.assertEqual(data[0][0], names[0][0])
 
@@ -103,4 +103,4 @@ class TestAlgorithmDeliverCombinedNames(TestCase):
                                                english_name='Jack')
         # FIXME
         # self.assertEqual("", delivered_chinese_names)
-        # self.assertEqual(3, len(delivered_chinese_names))
+        self.assertEqual(7, len(delivered_chinese_names))

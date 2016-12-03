@@ -47,8 +47,8 @@ def _find_existing_name_word(english_name, client_chars=[], data=[]):
     中文词组,拼音组,英文名,英文名,英文名,权重,honorable,intellectual,elegant,agile,powerful,organized,lucky,precious,artistic,beautiful,reliable,free,,,,
     :return: {'中文二字词组', '拼音组', 音调1, 音调2, 打分}
     """
-    names = data | where(lambda d: english_name != '' and english_name in d[2:5]) | select(
-        lambda n: (n[0], n[1], 4, 1, 5)) | as_list
+    names = data | where(lambda d: english_name != '' and english_name in d[3:7]) | select(
+        lambda n: (n[0], n[1], int(n[2]), int(n[3]), 5)) | as_list
     return names
 
 
@@ -133,6 +133,7 @@ def deliver_name(order_client_chars, order_client_gender, english_name=''):
     chinese_family_name = _choose_family_name_by_character(order_client_chars, data=_read_csv('family_names.txt'))
     print '=========', chinese_family_name
     chinese_names = _filter_chinese_names_by_tones(chinese_family_name, chinese_char_combinations, chinese_word)
+    print '==============', chinese_names
     return chinese_names
 
 
