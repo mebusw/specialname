@@ -86,11 +86,11 @@ class TestAlgorithmMixChineseChars(TestCase):
 
 
 class TestToneFilter(TestCase):
-    def test_filter_chinese_names_by_tones(self):
+    def test_sort_full_names_by_pingze_tones(self):
         result = _filter_chinese_names_by_tones(chinese_family_name=['申', 'shen', 1, 5],
                                                 chinese_char_combinations=[('德华', 'de hua', 2, 2, 5),
-                                                                           ('润发', 'run fa', 4, 1, 5)],
-                                                chinese_word=[('彦祖', 'yan zu', 4, 3, 5)], )
+                                                                           ('彦祖', 'yan zu', 4, 3, 5)],
+                                                chinese_word=[('润发', 'run fa', 4, 1, 5)], )
         self.assertEqual([['申德华', 'shen de hua', 1, 2, 2, 5, 2],
                           ['申润发', 'shen run fa', 1, 4, 1, 5, 2],
                           ['申彦祖', 'shen yan zu', 1, 4, 3, 5, 1],

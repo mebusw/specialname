@@ -78,17 +78,19 @@ def _filter_chinese_names_by_tones(chinese_family_name, chinese_char_combination
 
     chinese_char_combinations.extend(chinese_word)
     # print '<<<<<<', chinese_char_combinations
-    full_names_to_be_filtered = map(lambda w:
-                                    [chinese_family_name[0] + w[0],
-                                     chinese_family_name[1] + ' ' + w[1],
-                                     chinese_family_name[2],
-                                     w[2],
-                                     w[3],
-                                     (chinese_family_name[3] + w[4]) / 2,
-                                     ],
-                                    chinese_char_combinations)
-    # print '>>>>>>', full_names_to_be_filtered
-    return map(lambda fnm: list(fnm) + [pingze_rating(fnm[2:5])], full_names_to_be_filtered)
+    full_names_to_be_rated = map(lambda w:
+                                 [chinese_family_name[0] + w[0],
+                                  chinese_family_name[1] + ' ' + w[1],
+                                  chinese_family_name[2],
+                                  w[2],
+                                  w[3],
+                                  (chinese_family_name[3] + w[4]) / 2,
+                                  ],
+                                 chinese_char_combinations)
+    # print '>>>>>>', full_names_to_be_rated
+    rated_names = map(lambda fnm: list(fnm) + [pingze_rating(fnm[2:5])], full_names_to_be_rated)
+    rated_names = sorted(rated_names, key=lambda n: n[6], reverse=True)
+    return rated_names
 
 
 def _choose_family_name_by_character(order_client_chars, data):
