@@ -11,11 +11,24 @@
         <div class="row">
             <div class="col-sm-12 col-md-12">
                 <a href="/"><img src="http://www.specialname.cn/wp-content/themes/twentythirteen/images/logo.png"></a>
+                <p>
+                    Select your gender:
+                </p>
             </div>
         </div>
         <div class="row">
-            <a href="#" class="genders" x-gender=0><img src="{% static 'media/girl.gif' %}"></a><span>Girl</span>
-            <a href="#" class="genders" x-gender=1><img src="{% static 'media/boy.gif' %}"></a><span>Boy</span>
+            <div class="col-sm-12 col-md-6">
+                <div class="center-block">
+                    <a href="#" class="genders" style="margin-left:20%" x-gender=0><img src="{% static 'media/girl.png' %}"></a>
+                    <span>Girl</span>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-6">
+                <div class="center-block">
+                    <a href="#" class="genders" style="margin-left:20%" x-gender=1><img src="{% static 'media/boy.png' %}"></a>
+                    <span>Boy</span>
+                </div>
+            </div>
         </div>
 
     </div>
@@ -200,6 +213,9 @@
             $('.checkbox-character input').change(function (ele) {
 
             })
+
+
+
 
 </script>
 {% endblock %}
