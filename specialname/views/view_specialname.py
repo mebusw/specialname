@@ -136,7 +136,7 @@ def payment_paypal_create(request):
     order.save()
 
     paypal.configure({
-        "mode": "sandbox",  # sandbox or live
+        "mode": "live" if settings.IS_PRODUCTION_ENV else "sandbox",
         "client_id": settings.PAYPAL_CLIENT_ID,
         "client_secret": settings.PAYPAL_CLIENT_SECRET,
     })
@@ -196,7 +196,7 @@ def payment_paypal_create(request):
 
 def payment_paypal_return(request):
     paypal.configure({
-        "mode": "sandbox",  # sandbox or live
+        "mode": "live" if settings.IS_PRODUCTION_ENV else "sandbox",
         "client_id": settings.PAYPAL_CLIENT_ID,
         "client_secret": settings.PAYPAL_CLIENT_SECRET,
     })
