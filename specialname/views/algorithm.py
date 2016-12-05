@@ -123,6 +123,11 @@ def _mix_chinese_chars(chinese_chars):
            ]) | as_list
 
 
+def three_highest_rating_chinese_names(chinese_names):
+    sort_by_rating_of_char_and_tone = sorted(chinese_names, key=lambda n: (n[5] + n[6]) / 2.0, reverse=True)
+    return sort_by_rating_of_char_and_tone[0:(3, len(sort_by_rating_of_char_and_tone)) | min]
+
+
 def deliver_name(order_client_chars, order_client_gender, english_name=''):
     chinese_chars = _choose_name_by_character_and_gender(order_client_chars, order_client_gender)[
                     0:10]  # TODO itertools.count(5) | take(10) | islice(2,5) | as_list
@@ -134,7 +139,7 @@ def deliver_name(order_client_chars, order_client_gender, english_name=''):
     print '=========', chinese_family_name
     chinese_names = _filter_chinese_names_by_tones(chinese_family_name, chinese_char_combinations, chinese_word)
     print '==============', chinese_names
-    return chinese_names
+    return three_highest_rating_chinese_names(chinese_names)
 
 
 # TODO

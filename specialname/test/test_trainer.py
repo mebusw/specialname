@@ -101,6 +101,4 @@ class TestAlgorithmDeliverCombinedNames(TestCase):
     def test_deliver_name(self):
         delivered_chinese_names = deliver_name(order_client_chars='0,0,1,1,0,0,0,0,0,1,1,1', order_client_gender='1',
                                                english_name='Jack')
-        # FIXME
-        # self.assertEqual("", delivered_chinese_names)
-        self.assertEqual(7, len(delivered_chinese_names))
+        self.assertEqual(3, len(delivered_chinese_names))
