@@ -2,127 +2,132 @@
 {% load static %}
 
 {% block content %}
-        <!-- Header and nav bar -->
-        <div class="container">
+<!-- Header and nav bar -->
+<div class="container">
+</div>
+<!-- Body: Recents -->
+<div class="page-row-topic">
+    <div class="container main">
+        <div class="row">
+            <div class="col-sm-12 col-md-12">
+                <a href="/"><img src="http://www.specialname.cn/wp-content/themes/twentythirteen/images/logo.png"></a>
+            </div>
         </div>
-        <!-- Body: Recents -->
-        <div class="page-row-topic">
-            <div class="container main">
-                <div class="row">
-                    <div class="col-sm-12 col-md-12">
-                        <img src="http://www.specialname.cn/wp-content/themes/twentythirteen/images/logo.png">
-                    </div>
+        <div class="row">
+            <a href="#" class="genders" x-gender=0><img src="{% static 'media/girl.gif' %}"></a><span>Girl</span>
+            <a href="#" class="genders" x-gender=1><img src="{% static 'media/boy.gif' %}"></a><span>Boy</span>
+        </div>
+
+    </div>
+</div><!-- / Body: Recents -->
+
+
+<!-- Body: Topic -->
+<div class="page-row-pink" id="chars">
+    <div class="container main">
+        <div class="container-fluid" style="width: 80%">
+            <div class="row text-center">
+                <div class="col-xs-6 col-sm-4 col-md-2 checkbox-character">
+                    <input type="checkbox" value="0" id="char0" name=""/>
+                    <label for="char0">Honorable</label>
                 </div>
-                <div class="row">
-                    <a href="#" class="genders" x-gender=0><img src="{% static 'media/girl.gif' %}"></a><span>Girl</span>
-                    <a href="#" class="genders" x-gender=1><img src="{% static 'media/boy.gif' %}"></a><span>Boy</span>
+                <div class="col-xs-6 col-sm-4 col-md-2 checkbox-character">
+                    <input type="checkbox" value="1" id="char1" name=""/>
+                    <label for="char1">Intellectual</label>
+                </div>
+                <div class="col-xs-6 col-sm-4 col-md-2 checkbox-character">
+                    <input type="checkbox" value="2" id="char2" name=""/>
+                    <label for="char2">Elegant</label>
+                </div>
+                <div class="col-xs-6 col-sm-4 col-md-2 checkbox-character">
+                    <input type="checkbox" value="3" id="char3" name=""/>
+                    <label for="char3">Agile</label>
+                </div>
+                <div class="col-xs-6 col-sm-4 col-md-2 checkbox-character">
+                    <input type="checkbox" value="4" id="char4" name=""/>
+                    <label for="char4">Power</label>
+                </div>
+                <div class="col-xs-6 col-sm-4 col-md-2 checkbox-character">
+                    <input type="checkbox" value="5" id="char5" name=""/>
+                    <label for="char5">Organized</label>
+                </div>
+                <div class="col-xs-6 col-sm-4 col-md-2 checkbox-character">
+                    <input type="checkbox" value="6" id="char6" name=""/>
+                    <label for="char6">Lucky</label>
+                </div>
+                <div class="col-xs-6 col-sm-4 col-md-2 checkbox-character">
+                    <input type="checkbox" value="7" id="char7" name=""/>
+                    <label for="char7">Precious</label>
+                </div>
+                <div class="col-xs-6 col-sm-4 col-md-2 checkbox-character">
+                    <input type="checkbox" value="8" id="char8" name=""/>
+                    <label for="char8">Artistic</label>
+                </div>
+                <div class="col-xs-6 col-sm-4 col-md-2 checkbox-character">
+                    <input type="checkbox" value="9" id="char9" name=""/>
+                    <label for="char9">Beautiful</label>
+                </div>
+                <div class="col-xs-6 col-sm-4 col-md-2 checkbox-character">
+                    <input type="checkbox" value="10" id="char10" name=""/>
+                    <label for="char10">Reliable</label>
+                </div>
+                <div class="col-xs-6 col-sm-4 col-md-2 checkbox-character">
+                    <input type="checkbox" value="11" id="char11" name=""/>
+                    <label for="char11">Free</label>
                 </div>
 
             </div>
-        </div><!-- / Body: Recents -->
+        </div>
+    </div>
+    <div>
+        <button class="btn btn-success center-block" id="start">Submit 5 characters</button>
+    </div>
+
+    <div id="myDiv" class="text-center">
+    </div>
+
+    <div id="payment" class="center-block">
+        <form role="form" action="./payment" method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="characters" id="characters" value="1,0,1">
+            <input type="hidden" name="gender" id="gender" value="0">
+            <button type="submit" id="payNow" class="btn btn-info center-block">Announce It!</button>
+        </form>
+    </div>
+
+</div><!-- / Body: Topic -->
 
 
-                            
-        <!-- Body: Topic -->
-        <div class="page-row-pink" id="chars">
-            <div class="container main">
-                <div class="container-fluid" style="width: 80%">
-                    <div class="row text-center">
-                        <div class="col-xs-6 col-sm-4 col-md-2 checkbox-character">
-                            <input type="checkbox" value="0" id="char0" name="" />
-                            <label for="char0">Honorable</label>
-                        </div>
-                        <div class="col-xs-6 col-sm-4 col-md-2 checkbox-character">
-                            <input type="checkbox" value="1" id="char1" name="" />
-                            <label for="char1">Intellectual</label>
-                        </div>
-                        <div class="col-xs-6 col-sm-4 col-md-2 checkbox-character">
-                            <input type="checkbox" value="2" id="char2" name="" />
-                            <label for="char2">Elegant</label>
-                        </div>
-                        <div class="col-xs-6 col-sm-4 col-md-2 checkbox-character">
-                            <input type="checkbox" value="3" id="char3" name="" />
-                            <label for="char3">Agile</label>
-                        </div>
-                        <div class="col-xs-6 col-sm-4 col-md-2 checkbox-character">
-                            <input type="checkbox" value="4" id="char4" name="" />
-                            <label for="char4">Power</label>
-                        </div>
-                        <div class="col-xs-6 col-sm-4 col-md-2 checkbox-character">
-                            <input type="checkbox" value="5" id="char5" name="" />
-                            <label for="char5">Organized</label>
-                        </div>
-                        <div class="col-xs-6 col-sm-4 col-md-2 checkbox-character">
-                            <input type="checkbox" value="6" id="char6" name="" />
-                            <label for="char6">Lucky</label>
-                        </div>
-                        <div class="col-xs-6 col-sm-4 col-md-2 checkbox-character">
-                            <input type="checkbox" value="7" id="char7" name="" />
-                            <label for="char7">Precious</label>
-                        </div>
-                        <div class="col-xs-6 col-sm-4 col-md-2 checkbox-character">
-                            <input type="checkbox" value="8" id="char8" name="" />
-                            <label for="char8">Artistic</label>
-                        </div>
-                        <div class="col-xs-6 col-sm-4 col-md-2 checkbox-character">
-                            <input type="checkbox" value="9" id="char9" name="" />
-                            <label for="char9">Beautiful</label>
-                        </div>
-                        <div class="col-xs-6 col-sm-4 col-md-2 checkbox-character">
-                            <input type="checkbox" value="10" id="char10" name="" />
-                            <label for="char10">Reliable</label>
-                        </div>
-                        <div class="col-xs-6 col-sm-4 col-md-2 checkbox-character">
-                            <input type="checkbox" value="11" id="char11" name="" />
-                            <label for="char11">Free</label>
-                        </div>
-                        
-                    </div>
+<!-- Body: Topic -->
+<div class="page-row-light" style="border-width: 1px 0px 1px 0px; border-style: solid;border-color: green;">
+    <div class="container main">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12 col-md-6">
+                    <img src="{% static 'media/mok.jpg' %}" class="img-responsive center-block" alt="Responsive image"
+                         width="50%" style="padding-top: 30px;">
                 </div>
-            </div>
-            <div>
-                <button class="btn btn-success center-block" id="start">Submit 5 characters</button>
-            </div>
-            
-            <div id="myDiv" class="text-center">
-            </div>
+                <div class="col-sm-12 col-md-6">
+                    <h2 style="font-style: normal;font-weight: normal;">Design a Chinese name for life</h2>
+                    <p style="font-style: normal;font-weight: normal;">I'm Dido, CEO and co-founder of "Name Chinese
+                        Name". In the past years, I meet many non-Chinese-spoken friends who come to chinese for a tour
+                        or work. They trust me to design a special Chinese name for their business. Like English name,
+                        they want to connect their Chinese name with own characteristics and favourites. In the mean
+                        while, a name impressed significantly others at the first glance, so it's a honor and duty to
+                        design name. In the future, their Chinese name will be printed on business card, social media or
+                        applications. So your name should represent your image.</p>
 
-            <div id="payment" class="center-block">
-                <form role="form" action="./payment" method="POST">
-                    {% csrf_token %}
-                    <input type="hidden" name="characters" id="characters" value="1,0,1">
-                    <input type="hidden" name="gender" id="gender" value="0">
-                    <button type="submit" id="payNow" class="btn btn-info center-block">Announce It!</button>
-                </form>
-            </div>
-
-        </div><!-- / Body: Topic -->
-
-
-
-        <!-- Body: Topic -->
-        <div class="page-row-light" style="border-width: 1px 0px 1px 0px; border-style: solid;border-color: green;">
-            <div class="container main">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-sm-12 col-md-6">
-                            <img src="{% static 'media/mok.jpg' %}" class="img-responsive center-block" alt="Responsive image" width="50%" style="padding-top: 30px;">
-                        </div>
-                        <div class="col-sm-12 col-md-6">
-                            <h2 style="font-style: normal;font-weight: normal;">Design a Chinese name for life</h2>
-                            <p style="font-style: normal;font-weight: normal;">I'm Dido, CEO and co-founder of "Name Chinese Name". In the past years, I meet many non-Chinese-spoken friends who come to chinese for a tour or work. They trust me to design a special Chinese name for their business. Like English name, they want to connect their Chinese name with own characteristics and favourites. In the mean while, a name impressed significantly others at the first glance, so it's a honor and duty to design name. In the future, their Chinese name will be printed on business card, social media or applications.  So your name should represent your image.</p>
-
-                        </div>
-                    </div>
                 </div>
             </div>
-        </div><!-- / Body: Topic -->
+        </div>
+    </div>
+</div><!-- / Body: Topic -->
 
 {% endblock %}
 
 
 {% block script %}
-        <script type="text/javascript">
+<script type="text/javascript">
             $('#chars').hide()
             $('#myDiv').hide()
             $('#payment').hide()
@@ -131,9 +136,17 @@
 
             
             $('.genders').click(function (evt) {
+                var gender_num = $(this).attr('x-gender')
+                $('#gender').val(gender_num)
+
+                if (gender_num == 1) {
+                    $('#chars').css('background-color', '#bde2f2')
+                } else {
+                    $('#chars').css('background-color', '#f2bdd6')
+                }
+
                 $('#chars').show();
-                $('#gender').val($(this).attr('x-gender'))
-                
+
                 $('body').animate({
                     scrollTop: $('#chars').position().top
                 }, 750);
@@ -187,5 +200,6 @@
             $('.checkbox-character input').change(function (ele) {
 
             })
-        </script>
+
+</script>
 {% endblock %}
