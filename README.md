@@ -1,5 +1,6 @@
 # specialname
 
+Run `start.sh`
 
 -------
 # ToDos

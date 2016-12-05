@@ -28,9 +28,16 @@ if IS_PRODUCTION_ENV:
     # SECURITY WARNING: don't run with debug turned on in production!
     DEBUG = True
     HOSTNAME = 'www.namechinesename.com' #'http://54.69.158.70'
+    # live
+    PAYPAL_CLIENT_ID = 'AUm5R0abEKULUvSusff8MhrEvhyKHtnHW3oo5N0KzhjS52Ep1lVyvY4rfXLbYTYO334n6RZl2mSNo7jo'
+    PAYPAL_CLIENT_SECRET = 'EHf3EVvSUO9UmBRSNtBntf4D5JsP-3swtpc0U9BzlZEUeERtVcWqGHJN_wBMGfZhMzFGJQdL2bCCXOe_'
 else:
     DEBUG = True
     HOSTNAME = 'http://localhost:8000'
+    # sandbox
+    PAYPAL_CLIENT_ID = 'AaaPugJL3aRgMCXPBsyF8kB0CWTp4KIv8qHHIrT0RCyfC9sFOdU475Dhp-O_Qrz1cVm_afuMEnlvcYTf'
+    PAYPAL_CLIENT_SECRET = 'ECKE9pvmGa_IGKUQz35vt4a_Lsv71y0OxBRLRgvQsSQJR7c0V9UP2Bu80nz_hVlo0mDhIlKk8fj8hAi-'
+
 
 
 ALLOWED_HOSTS = ['*']
