@@ -60,6 +60,7 @@ def _create_order():
     order.total_price = total_price
     order.discount_price = total_price
     order.currency = order_item.product.currency
+    order.deliverable = ['']
     order.save()
 
     return order
