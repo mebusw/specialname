@@ -4,11 +4,11 @@
 {% block facebook %}
 <meta property="og:type" content="article">
 <meta name="description"
-      content="Look at my special Chinese name: {{order.deliverable.0.0}}, do you want one as well?"">
+      content="Look at my special Chinese name: {{deliverables.0.0}}, do you want one as well?"">
 <meta property="og:title" content="Look at my special Chinese name {{order.deliverable.0.0}}">
 <meta property="og:url" content="http://www.namechinesename.com/order/{{order.id}}">
 <meta property="og:description"
-      content="Look at my special Chinese name: {{order.deliverable.0.0}}, do you want one as well?">
+      content="Look at my special Chinese name: {{deliverables.0.0}}, do you want one as well?">
 {% endblock %}
 
 
@@ -30,7 +30,7 @@
     </div>
 
     <h3>Your names:</h3>
-    {% for dlv in order.deliverable %}
+    {% for dlv in deliverables %}
     <p>{{dlv.0}} {{dlv.1}}</p>
     {% endfor %}
 

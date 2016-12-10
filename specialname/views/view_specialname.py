@@ -39,7 +39,7 @@ def order(request, order_id):
 
     return render_to_response('specialname/paid.html',
                               {'paymentId': request.GET.get("paymentId", ""),
-                               # 'hostname': urllib.quote(settings.HOSTNAME),
+                               'deliverables': eval(order.deliverable),
                                'order': order}, context_instance=RequestContext(request))
 
 
@@ -103,6 +103,7 @@ def paid_wap(request):
 
     return render_to_response('specialname/paid.html',
                               {'discount_price': order.discount_price,
+                               'deliverables': order.deliverable,
                                'order': order}, context_instance=RequestContext(request))
 
 @csrf_exempt
@@ -215,6 +216,7 @@ def payment_paypal_return(request):
         return render_to_response('specialname/paid.html',
                                   {'paymentId': request.GET["paymentId"],
                                    'discount_price': order.discount_price,
+                                   'deliverables': order.deliverable,
                                    'order': order}, context_instance=RequestContext(request))
     else:
         print(payment.error)
