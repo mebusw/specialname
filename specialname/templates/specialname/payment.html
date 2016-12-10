@@ -4,39 +4,10 @@
 {% block content %}
         <!-- Header and nav bar -->
         <div class="container">
-            <h1>Product</h1>
+            <h1>Payment</h1>
 
 
             <p class="hide">{{gender}} | {{ characters }} | </p>
-            <!-- Below is for Alipay wap -->
-<!--             <form role="form" class="form-inline" action="./payment_wap" method="POST">
-                {% csrf_token %}
-                <div class="form-group">
-                    <label for="client_name">Name <span style="color:red;">*</span></label>
-                    <input type="" class="form-control" id="client_name" name="client_name" placeholder="Enter name" value="" required>
-                </div>
-                <div class="form-group">
-                    <label for="email">Email address <span style="color:red;">*</span></label>
-                    <input type="email" class="form-control" id="client_email" name="client_email" placeholder="Enter email" value="" required>
-                </div>
-                <p>Products:</p>
-                <div class="table-responsive">
-                    <table class="table table-bordered">
-                        <tr>
-                            <td>Chinese name by experts x1</td>
-                            <td>{{product.price}} {{product.currency}}</td>
-                        </tr>
-                        <tr>
-                            <td>Total Price</td>
-                            <td>{{product.price}} {{product.currency}}</td>
-                        </tr>
-                    </table>
-                </div>
-                <input type="hidden" name="client_chars" value="{{characters}}">
-                <input type="hidden" name="client_gender" value="{{gender}}">
-                <button class="btn btn-primary"><img src="http://www.nihaopay.com/img/logos/logo-alipay.png" alt="Alipay Wap" height="34px"></button>
-            </form>
- -->
 
             <form role="form" class="form-inline" action="./payment/paypal/create" method="POST" id="paypal_form">
                 {% csrf_token %}
@@ -66,12 +37,24 @@
                 <button type="submit" class="save btn btn-default"><img src="https://www.paypalobjects.com/webstatic/en_US/i/btn/png/gold-rect-paypalcheckout-34px.png" alt="Paypal"></button>
             </form>
 
+            <h3>OR</h3>
+            <!-- Below is for Alipay wap -->
+            <form role="form" id="alipay_form" class="form-inline" action="./payment_wap" method="POST">
+                {% csrf_token %}
+                <div class="form-group hidden">
+                    <label for="client_name">Name <span style="color:red;">*</span></label>
+                    <input type="" class="form-control" name="client_name" placeholder="Enter name" value="" required>
+                </div>
+                <div class="form-group hidden">
+                    <label for="email">Email address <span style="color:red;">*</span></label>
+                    <input type="email" class="form-control" name="client_email" placeholder="Enter email" value="" required>
+                </div>
+                <input type="hidden" name="client_chars" value="{{characters}}">
+                <input type="hidden" name="client_gender" value="{{gender}}">
+                <button class="btn btn-default"><img src="https://os.alipayobjects.com/rmsportal/qLlKVsZuTordMlU.png" alt="Alipay Wap" height="34px"></button>
+            </form>
 
         </div>
-
-
-
-
 
 
 {% endblock %}
@@ -88,7 +71,15 @@ $('#paypal_form')[0].addEventListener('submit', function(event) {
     }, false);
 </script>
 
+<script type="text/javascript">
+    $('#client_name').change(function () {
+        $('#alipay_form  input[name="client_name"]').val( $('#paypal_form  input[name="client_name"]').val() )        
+    })
 
+    $('#client_email').change(function () {
+        $('#alipay_form  input[name="client_email"]').val( $('#paypal_form  input[name="client_email"]').val() )
+    })
+</script>
 
     <!--<input id="ss_tj_value_1" type="text" size="24" maxlength="12" class="all_srk_1" onblur="this.className='all_srk_1';" onfocus="this.className='all_srk_2';" placeholder="请输入要查询笔画的汉字" value="刘德华">-->
     <!--<input id="ss_tj_button_1" type="button" value="查询" class="all_an_1" onclick="app_tj_s('0');">-->

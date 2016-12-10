@@ -81,6 +81,8 @@ def payment_wap(request):
     order.client_chars = request.POST['client_chars']
     order.client_gender = request.POST['client_gender']
     order.pay_channel = order.ALIPAY
+    order.discount_price = int(order.discount_price * 7)
+    order.currency = "CNY"
     order.out_trade_no = _generate_req_seq()
     order.save()
 
@@ -89,22 +91,19 @@ def payment_wap(request):
 
 @csrf_exempt
 def paid_wap(request):
-    params = request.POST.dict()
+    params = request.GET.dict()
     is_correct_sign = AlipayWap().is_correct_sign(params)
 
     order = Order.objects.get(out_trade_no=params['out_trade_no'])
-    #TODO
-    order.deliverable = '王二狗 赵淑芬'
+    order.deliverable = deliver_name(order.client_chars, order.client_gender)
+    print order.deliverable
     order.state = Order.PAID
     order.pay_date = datetime_safe.datetime.now()
     order.save()
 
     return render_to_response('specialname/paid.html',
-                              {'out_trade_no': request.GET["out_trade_no"], 'result': request.GET['result'],
-                               'discount_price': order.discount_price,
-                               'is_correct_sign': is_correct_sign,
+                              {'discount_price': order.discount_price,
                                'order': order}, context_instance=RequestContext(request))
-
 
 @csrf_exempt
 def paid_notify_wap(request):
