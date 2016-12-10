@@ -80,8 +80,8 @@
 /*******************/
 
 .checkbox-character {
-	width: 80px;
-	height: 80px;
+	width: 100px;
+	height: 100px;
 	background: #ddd;
 	margin: 20px 20px;
  
@@ -94,11 +94,11 @@
 
 .checkbox-character label {
 	display: block;
-	width: 70px;
-	height: 70px;
+	width: 90px;
+	height: 90px;
 	border-radius: 100px;
 
-	padding: 25px 10px;
+	padding: 35px 10px;
 	font-size: 14px;
  
 	-webkit-transition: all .5s ease;
