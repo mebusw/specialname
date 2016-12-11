@@ -82,7 +82,7 @@ def payment_wap(request):
     order.client_chars = request.POST['client_chars']
     order.client_gender = request.POST['client_gender']
     order.pay_channel = order.ALIPAY
-    order.discount_price = int(order.discount_price * 7)
+    order.discount_price = 19.9 # int(order.discount_price * 7)
     order.currency = "CNY"
     order.out_trade_no = _generate_req_seq()
     order.save()
